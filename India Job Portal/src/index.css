@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  color: #1E293B;
+  background-color: #F8FAFC;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* Recruitment Professional Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes staggerSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes kanbanPulse {
+  0%, 100% { border-color: rgba(37, 99, 235, 0.3); }
+  50% { border-color: rgba(37, 99, 235, 0.8); }
+}
+
+/* Professional Job Portal Animations */
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+.animate-stagger-card {
+  animation: staggerSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-checkmark {
+  animation: checkmarkPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.kanban-column-active {
+  animation: kanbanPulse 2s infinite;
+}
+
+/* Card Hover Lift & Border Highlight */
+.job-card-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.job-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* Table Row Hover Highlight */
+.table-row-hover {
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.table-row-hover:hover {
+  background-color: #F8FAFC;
+}
+
+/* Button Touch Ripple Feedback */
+.btn-recruitment {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-recruitment:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 16px -4px rgba(37, 99, 235, 0.3);
+}
+.btn-recruitment:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Theme Variation Tokens */
+.theme-corporate {
+  --primary-color: #0F172A;
+  --accent-color: #2563EB;
+  --badge-bg: #EFF6FF;
+  --badge-text: #1E40AF;
+}
+
+.theme-saas {
+  --primary-color: #4F46E5;
+  --accent-color: #0EA5E9;
+  --badge-bg: #EEF2FF;
+  --badge-text: #4338CA;
+}
+
+.theme-premium {
+  --primary-color: #065F46;
+  --accent-color: #10B981;
+  --badge-bg: #ECFDF5;
+  --badge-text: #065F46;
+}
