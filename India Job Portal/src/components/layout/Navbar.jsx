@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme, VARIATIONS } from '../../context/ThemeContext';
 import { 
   Briefcase, ChevronDown, Menu, X, ArrowRight, User, Building2, ShieldCheck, 
@@ -10,6 +10,19 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
   const [mobileOpen, setMobileOpen] = useState(false);
   const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const publicLinks = [
     { id: 'home', label: 'Home' },
@@ -39,7 +52,13 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
   };
 
   return (
-    <header className={`sticky top-0 z-40 ${activeConfig.headerBg} shadow-sm border-b border-slate-200/60`}>
+    <header 
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? 'backdrop-blur-xl bg-white/85 shadow-md border-b border-slate-200/80 py-0.5'
+          : `${activeConfig.headerBg} shadow-xs border-b border-slate-200/60`
+      }`}
+    >
       <div className="w-full px-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between h-20 gap-4">
           
@@ -55,7 +74,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                 ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20'
                 : 'bg-emerald-600 text-white shadow-md shadow-emerald-700/20'
             }`}>
-              <Briefcase className="w-6 h-6" />
+              <Briefcase className="w-6 h-6 animate-pulse" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
@@ -83,19 +102,22 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                     setActivePortal('public');
                     handleNav(link.id);
                   }}
-                  className={`px-3.5 py-2 rounded-xl text-sm transition-all whitespace-nowrap ${
+                  className={`px-3.5 py-2 rounded-xl text-sm transition-all whitespace-nowrap relative ${
                     isActive
                       ? `${activeConfig.buttonSecondary} shadow-xs text-slate-900 font-extrabold`
                       : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100/70 font-bold'
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-blue-600 rounded-full" />
+                  )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Right: Portals, Login, Primary CTA & Themes Dropdown AT THE VERY END */}
+          {/* Right: Portals, Login, Primary CTA & Themes Dropdown */}
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             
             {/* 1. User Portal Switcher Dropdown */}
@@ -169,13 +191,13 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                 setActivePortal('company');
                 handleNav('company-login');
               }}
-              className={`px-4 py-2.5 ${activeConfig.cardRadius} text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${activeConfig.buttonPrimary}`}
+              className={`px-4 py-2.5 ${activeConfig.cardRadius} text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all whitespace-nowrap shadow-md hover:shadow-lg ${activeConfig.buttonPrimary}`}
             >
               <span>Employer Post Job</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
-            {/* 4. Themes Dropdown AT THE VERY END (Button Label: "Themes") */}
+            {/* 4. Themes Dropdown */}
             <div className="relative">
               <button
                 onClick={() => {

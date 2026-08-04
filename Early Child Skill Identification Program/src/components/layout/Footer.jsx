@@ -82,8 +82,8 @@ export const Footer = ({ setActivePage, setActivePortal }) => {
               User Portals & Hubs
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><button onClick={() => handleNav('parent', 'parent-login')} className="hover:text-white transition-colors">Parent Login</button></li>
-              <li><button onClick={() => handleNav('parent', 'parent-register')} className="hover:text-white transition-colors">Parent Registration</button></li>
+              <li><button onClick={() => handleNav('teacher', 'teacher-login')} className="hover:text-white transition-colors font-bold text-purple-400">Teacher Login</button></li>
+              <li><button onClick={() => handleNav('parent', 'parent-dashboard')} className="hover:text-white transition-colors">Parent Portal & Quiz</button></li>
               <li><button onClick={() => handleNav('school', 'school-dashboard')} className="hover:text-white transition-colors">Partner School Portal</button></li>
               <li><button onClick={() => handleNav('teacher', 'teacher-dashboard')} className="hover:text-white transition-colors">Skill Teacher Hub</button></li>
               <li><button onClick={() => handleNav('admin', 'admin-dashboard')} className="hover:text-white transition-colors">Admin Governance</button></li>

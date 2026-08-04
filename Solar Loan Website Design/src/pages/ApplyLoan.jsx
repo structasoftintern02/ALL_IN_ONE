@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
+import { ScrollReveal } from '../components/common/ScrollReveal';
 import { 
   CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, User, MapPin, Briefcase, 
   CreditCard, Sun, Building, FileCheck2, Sparkles, Check 
@@ -66,7 +68,7 @@ export const ApplyLoan = ({ setActivePage }) => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header */}
-      <div className="text-center space-y-2">
+      <ScrollReveal direction="down" amount={0.1} className="text-center space-y-2">
         <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
           100% Digital Solar Credit Application
         </span>
@@ -76,10 +78,10 @@ export const ApplyLoan = ({ setActivePage }) => {
         <p className="text-xs sm:text-sm text-slate-500">
           Complete the guided steps below to generate your instant e-sanction letter.
         </p>
-      </div>
+      </ScrollReveal>
 
       {!isSubmitted ? (
-        <div className={`bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 shadow-sm space-y-8`}>
+        <ScrollReveal direction="up" className={`bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 shadow-sm space-y-8`}>
           
           {/* Progress Stepper Bar */}
           <div className="overflow-x-auto pb-4">
@@ -92,22 +94,25 @@ export const ApplyLoan = ({ setActivePage }) => {
                 return (
                   <React.Fragment key={s.num}>
                     <div className="flex flex-col items-center gap-1.5 cursor-pointer" onClick={() => s.num < currentStep && setCurrentStep(s.num)}>
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
-                        isDone 
-                          ? 'bg-emerald-600 text-white' 
-                          : isCurrent 
-                          ? `${activeConfig.buttonPrimary}` 
-                          : 'bg-slate-100 text-slate-400 border border-slate-200'
-                      }`}>
+                      <motion.div 
+                        whileHover={{ scale: 1.1 }}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
+                          isDone 
+                            ? 'bg-emerald-600 text-white' 
+                            : isCurrent 
+                            ? `${activeConfig.buttonPrimary}` 
+                            : 'bg-slate-100 text-slate-400 border border-slate-200'
+                        }`}
+                      >
                         {isDone ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
-                      </div>
+                      </motion.div>
                       <span className={`text-[11px] font-semibold ${isCurrent ? 'text-slate-900 font-bold' : 'text-slate-400'}`}>
                         {s.title}
                       </span>
                     </div>
 
                     {idx < steps.length - 1 && (
-                      <div className={`flex-1 h-0.5 mx-2 ${idx + 1 < currentStep ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+                      <div className={`flex-1 h-0.5 mx-2 transition-colors duration-300 ${idx + 1 < currentStep ? 'bg-emerald-500' : 'bg-slate-200'}`} />
                     )}
                   </React.Fragment>
                 );
@@ -115,346 +120,389 @@ export const ApplyLoan = ({ setActivePage }) => {
             </div>
           </div>
 
-          {/* Form Step Content */}
+          {/* Form Step Content with AnimatePresence */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            
-            {/* Step 1: Personal Details */}
-            {currentStep === 1 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 1: Personal Identification
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Full Legal Name (As per Aadhaar)</label>
-                    <input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
+            <AnimatePresence mode="wait">
+              {currentStep === 1 && (
+                <motion.div 
+                  key="step1"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 1: Personal Identification
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Full Legal Name (As per Aadhaar)</label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Mobile Number (Aadhaar Linked)</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Date of Birth</label>
+                      <input
+                        type="date"
+                        name="dob"
+                        value={formData.dob}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 2 && (
+                <motion.div 
+                  key="step2"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 2: Installation Address & Ownership
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Full Installation Property Address</label>
+                      <input
+                        type="text"
+                        name="addressLine"
+                        value={formData.addressLine}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Pin Code</label>
+                      <input
+                        type="text"
+                        name="pincode"
+                        value={formData.pincode}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Property Ownership Status</label>
+                      <select
+                        name="residenceType"
+                        value={formData.residenceType}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      >
+                        <option value="Self Owned Independent House">Self Owned Independent House</option>
+                        <option value="Ancestral Family Owned Property">Ancestral Family Owned Property</option>
+                        <option value="Commercial Factory Premises">Commercial Factory Premises</option>
+                      </select>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 3 && (
+                <motion.div 
+                  key="step3"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 3: Employment & Professional Details
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employment Category</label>
+                      <select
+                        name="employmentType"
+                        value={formData.employmentType}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      >
+                        <option value="Salaried Private Ltd">Salaried Private Ltd</option>
+                        <option value="Salaried Public Sector / Govt">Salaried Public Sector / Govt</option>
+                        <option value="Self Employed Business">Self Employed Business</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employer / Business Name</label>
+                      <input
+                        type="text"
+                        name="employerName"
+                        value={formData.employerName}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Designation</label>
+                      <input
+                        type="text"
+                        name="designation"
+                        value={formData.designation}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Work Experience (Years)</label>
+                      <input
+                        type="number"
+                        name="workExperienceYears"
+                        value={formData.workExperienceYears}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 4 && (
+                <motion.div 
+                  key="step4"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 4: Financial & Income Parameters
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">PAN Card Number</label>
+                      <input
+                        type="text"
+                        name="panNumber"
+                        value={formData.panNumber}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium uppercase"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Net Monthly Salary / Income (₹)</label>
+                      <input
+                        type="number"
+                        name="monthlyIncome"
+                        value={formData.monthlyIncome}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Total Existing Monthly Loan EMIs (₹)</label>
+                      <input
+                        type="number"
+                        name="existingEmi"
+                        value={formData.existingEmi}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 5 && (
+                <motion.div 
+                  key="step5"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 5: Solar System Specifications
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Solar System Capacity</label>
+                      <select
+                        name="systemCapacityKw"
+                        value={formData.systemCapacityKw}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      >
+                        <option value="3.0 kW Rooftop System">3.0 kW Rooftop System (Residential)</option>
+                        <option value="5.5 kW Rooftop System">5.5 kW Rooftop System (Villa)</option>
+                        <option value="10.0 kW System">10.0 kW System (Commercial)</option>
+                        <option value="25.0+ kW Factory Solar">25.0+ kW Factory Solar</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Vendor Quotation Amount (₹)</label>
+                      <input
+                        type="number"
+                        name="solarProjectCost"
+                        value={formData.solarProjectCost}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Empaneled Solar Installer / Vendor</label>
+                      <input
+                        type="text"
+                        name="solarInstaller"
+                        value={formData.solarInstaller}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 6 && (
+                <motion.div 
+                  key="step6"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 6: Bank Disbursement Account
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Primary Bank Name</label>
+                      <input
+                        type="text"
+                        name="bankName"
+                        value={formData.bankName}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Account Number</label>
+                      <input
+                        type="text"
+                        name="accountNumber"
+                        value={formData.accountNumber}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">IFSC Code</label>
+                      <input
+                        type="text"
+                        name="ifscCode"
+                        value={formData.ifscCode}
+                        onChange={handleChange}
+                        className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium uppercase"
+                        required
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 7 && (
+                <motion.div 
+                  key="step7"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+                    Step 7: Final Application Verification
+                  </h3>
+
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 text-xs">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div><span className="text-slate-400">Applicant:</span> <strong className="text-slate-900 block">{formData.fullName}</strong></div>
+                      <div><span className="text-slate-400">PAN Card:</span> <strong className="text-slate-900 block">{formData.panNumber}</strong></div>
+                      <div><span className="text-slate-400">Solar System:</span> <strong className="text-slate-900 block">{formData.systemCapacityKw}</strong></div>
+                      <div><span className="text-slate-400">Project Cost:</span> <strong className="text-teal-700 block">₹{Number(formData.solarProjectCost).toLocaleString('en-IN')}</strong></div>
+                      <div><span className="text-slate-400">Disbursement Bank:</span> <strong className="text-slate-900 block">{formData.bankName}</strong></div>
+                      <div><span className="text-slate-400">Property:</span> <strong className="text-slate-900 block">{formData.residenceType}</strong></div>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
+                  <div className="flex items-start gap-2 p-3 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-200 text-xs">
+                    <ShieldCheck className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+                    <span>
+                      By submitting, you consent to digital CIBIL verification and PM Surya Ghar subsidy auto-integration with your bank account.
+                    </span>
                   </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Mobile Number (Aadhaar Linked)</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Date of Birth</label>
-                    <input
-                      type="date"
-                      name="dob"
-                      value={formData.dob}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 2: Address */}
-            {currentStep === 2 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 2: Installation Address & Ownership
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Full Installation Property Address</label>
-                    <input
-                      type="text"
-                      name="addressLine"
-                      value={formData.addressLine}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Pin Code</label>
-                    <input
-                      type="text"
-                      name="pincode"
-                      value={formData.pincode}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Property Ownership Status</label>
-                    <select
-                      name="residenceType"
-                      value={formData.residenceType}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    >
-                      <option value="Self Owned Independent House">Self Owned Independent House</option>
-                      <option value="Ancestral Family Owned Property">Ancestral Family Owned Property</option>
-                      <option value="Commercial Factory Premises">Commercial Factory Premises</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Employment */}
-            {currentStep === 3 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 3: Employment & Professional Details
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Employment Category</label>
-                    <select
-                      name="employmentType"
-                      value={formData.employmentType}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    >
-                      <option value="Salaried Private Ltd">Salaried Private Ltd</option>
-                      <option value="Salaried Public Sector / Govt">Salaried Public Sector / Govt</option>
-                      <option value="Self Employed Business">Self Employed Business</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Employer / Business Name</label>
-                    <input
-                      type="text"
-                      name="employerName"
-                      value={formData.employerName}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Designation</label>
-                    <input
-                      type="text"
-                      name="designation"
-                      value={formData.designation}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Work Experience (Years)</label>
-                    <input
-                      type="number"
-                      name="workExperienceYears"
-                      value={formData.workExperienceYears}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 4: Income & Financials */}
-            {currentStep === 4 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 4: Financial & Income Parameters
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">PAN Card Number</label>
-                    <input
-                      type="text"
-                      name="panNumber"
-                      value={formData.panNumber}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium uppercase"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Net Monthly Salary / Income (₹)</label>
-                    <input
-                      type="number"
-                      name="monthlyIncome"
-                      value={formData.monthlyIncome}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Total Existing Monthly Loan EMIs (₹)</label>
-                    <input
-                      type="number"
-                      name="existingEmi"
-                      value={formData.existingEmi}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 5: Solar Project Details */}
-            {currentStep === 5 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 5: Solar System Specifications
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Solar System Capacity</label>
-                    <select
-                      name="systemCapacityKw"
-                      value={formData.systemCapacityKw}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    >
-                      <option value="3.0 kW Rooftop System">3.0 kW Rooftop System (Residential)</option>
-                      <option value="5.5 kW Rooftop System">5.5 kW Rooftop System (Villa)</option>
-                      <option value="10.0 kW System">10.0 kW System (Commercial)</option>
-                      <option value="25.0+ kW Factory Solar">25.0+ kW Factory Solar</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Vendor Quotation Amount (₹)</label>
-                    <input
-                      type="number"
-                      name="solarProjectCost"
-                      value={formData.solarProjectCost}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Empaneled Solar Installer / Vendor</label>
-                    <input
-                      type="text"
-                      name="solarInstaller"
-                      value={formData.solarInstaller}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 6: Bank Account */}
-            {currentStep === 6 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 6: Bank Disbursement Account
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Primary Bank Name</label>
-                    <input
-                      type="text"
-                      name="bankName"
-                      value={formData.bankName}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Account Number</label>
-                    <input
-                      type="text"
-                      name="accountNumber"
-                      value={formData.accountNumber}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">IFSC Code</label>
-                    <input
-                      type="text"
-                      name="ifscCode"
-                      value={formData.ifscCode}
-                      onChange={handleChange}
-                      className="w-full py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium uppercase"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 7: Review & Submit */}
-            {currentStep === 7 && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
-                  Step 7: Final Application Verification
-                </h3>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 text-xs">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div><span className="text-slate-400">Applicant:</span> <strong className="text-slate-900 block">{formData.fullName}</strong></div>
-                    <div><span className="text-slate-400">PAN Card:</span> <strong className="text-slate-900 block">{formData.panNumber}</strong></div>
-                    <div><span className="text-slate-400">Solar System:</span> <strong className="text-slate-900 block">{formData.systemCapacityKw}</strong></div>
-                    <div><span className="text-slate-400">Project Cost:</span> <strong className="text-teal-700 block">₹{Number(formData.solarProjectCost).toLocaleString('en-IN')}</strong></div>
-                    <div><span className="text-slate-400">Disbursement Bank:</span> <strong className="text-slate-900 block">{formData.bankName}</strong></div>
-                    <div><span className="text-slate-400">Property:</span> <strong className="text-slate-900 block">{formData.residenceType}</strong></div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2 p-3 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-200 text-xs">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                  <span>
-                    By submitting, you consent to digital CIBIL verification and PM Surya Ghar subsidy auto-integration with your bank account.
-                  </span>
-                </div>
-              </div>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Navigation Control Buttons */}
             <div className="flex items-center justify-between pt-4 border-t border-slate-100">
@@ -462,7 +510,7 @@ export const ApplyLoan = ({ setActivePage }) => {
                 <button
                   type="button"
                   onClick={() => setCurrentStep(currentStep - 1)}
-                  className="px-5 py-2.5 rounded-xl text-xs font-semibold border border-slate-300 hover:bg-slate-100 text-slate-700 flex items-center gap-1.5"
+                  className="px-5 py-2.5 rounded-xl text-xs font-semibold border border-slate-300 hover:bg-slate-100 text-slate-700 flex items-center gap-1.5 transition-all"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Previous</span>
@@ -470,32 +518,40 @@ export const ApplyLoan = ({ setActivePage }) => {
               ) : <div />}
 
               {currentStep < 7 ? (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="button"
                   onClick={() => setCurrentStep(currentStep + 1)}
                   className={`px-6 py-2.5 ${activeConfig.cardRadius} text-xs font-bold transition-all flex items-center gap-1.5 ${activeConfig.buttonPrimary}`}
                 >
                   <span>Next Step</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </motion.button>
               ) : (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all flex items-center gap-2"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Submit Application</span>
-                </button>
+                </motion.button>
               )}
             </div>
 
           </form>
 
-        </div>
+        </ScrollReveal>
       ) : (
         /* Instant Submission Success Screen */
-        <div className={`p-8 bg-white ${activeConfig.cardRadius} border border-slate-200 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-200`}>
-          <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`p-8 bg-white ${activeConfig.cardRadius} border border-slate-200 text-center space-y-6 shadow-xl`}
+        >
+          <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl animate-bounce">
             <CheckCircle2 className="w-10 h-10" />
           </div>
 
@@ -518,21 +574,25 @@ export const ApplyLoan = ({ setActivePage }) => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() => setActivePage('upload')}
               className={`px-6 py-3 ${activeConfig.cardRadius} text-xs font-bold transition-all ${activeConfig.buttonPrimary}`}
             >
               Next Step: Upload Documents →
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() => setActivePage('track')}
-              className="px-6 py-3 rounded-xl border border-slate-300 text-xs font-semibold hover:bg-slate-100 text-slate-800"
+              className="px-6 py-3 rounded-xl border border-slate-300 text-xs font-semibold hover:bg-slate-100 text-slate-800 transition-all"
             >
               Track Application Timeline
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       )}
 
     </div>

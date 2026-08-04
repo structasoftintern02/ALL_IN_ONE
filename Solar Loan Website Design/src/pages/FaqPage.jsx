@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
 import { faqsData } from '../data/faqs';
+import { ScrollReveal } from '../components/common/ScrollReveal';
 import { Search, ChevronDown, HelpCircle, MessageSquare } from 'lucide-react';
 
 export const FaqPage = ({ setActivePage }) => {
@@ -19,7 +21,7 @@ export const FaqPage = ({ setActivePage }) => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto space-y-3">
+      <ScrollReveal direction="down" amount={0.1} className="text-center max-w-2xl mx-auto space-y-3">
         <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
           Knowledge Hub & FAQs
         </span>
@@ -29,10 +31,10 @@ export const FaqPage = ({ setActivePage }) => {
         <p className="text-slate-600 text-sm">
           Everything you need to know about Solar Rooftop Loans, PM Surya Ghar subsidies, interest rates, and DISCOM Net Metering.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* Search Input */}
-      <div className="max-w-xl mx-auto relative">
+      <ScrollReveal direction="up" amount={0.2} className="max-w-xl mx-auto relative">
         <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
         <input
           type="text"
@@ -41,7 +43,7 @@ export const FaqPage = ({ setActivePage }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-300 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
         />
-      </div>
+      </ScrollReveal>
 
       {/* Accordion Categories */}
       <div className="space-y-8">
@@ -56,7 +58,7 @@ export const FaqPage = ({ setActivePage }) => {
           if (filteredQs.length === 0) return null;
 
           return (
-            <div key={cIdx} className="space-y-4">
+            <ScrollReveal key={cIdx} direction="up" className="space-y-4">
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-200 pb-2">
                 <HelpCircle className="w-5 h-5 text-teal-600" />
                 <span>{cat.category} Questions</span>
@@ -77,22 +79,30 @@ export const FaqPage = ({ setActivePage }) => {
                         className="w-full text-left p-4 font-bold text-slate-900 text-sm flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
                       >
                         <span className="flex items-center gap-2">
-                          <span className="text-teal-600">Q.</span>
+                          <span className="text-teal-600 font-extrabold">Q.</span>
                           <span>{faq.q}</span>
                         </span>
-                        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                       </button>
 
-                      {isOpen && (
-                        <div className="px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
-                          {faq.a}
-                        </div>
-                      )}
+                      <AnimatePresence>
+                        {isOpen && (
+                          <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50 overflow-hidden"
+                          >
+                            {faq.a}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
               </div>
-            </div>
+            </ScrollReveal>
           );
         })}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme, VARIATIONS } from '../../context/ThemeContext';
 import { 
   Sparkles, ChevronDown, Menu, X, ArrowRight, User, Building, GraduationCap, ShieldCheck, Palette 
@@ -9,6 +9,19 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
   const [mobileOpen, setMobileOpen] = useState(false);
   const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const publicLinks = [
     { id: 'home', label: 'Home' },
@@ -38,7 +51,13 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
   };
 
   return (
-    <header className={`sticky top-0 z-40 font-sans ${activeConfig.headerBg} shadow-sm border-b border-slate-200/60`}>
+    <header 
+      className={`sticky top-0 z-40 font-sans transition-all duration-300 ${
+        isScrolled 
+          ? 'backdrop-blur-xl bg-white/85 shadow-md border-b border-slate-200/80 py-0.5' 
+          : `${activeConfig.headerBg} shadow-xs border-b border-slate-200/60`
+      }`}
+    >
       <div className="w-full px-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between h-20 gap-4">
           
@@ -54,7 +73,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                 ? 'bg-gradient-to-tr from-purple-600 to-teal-500 text-white shadow-md'
                 : 'bg-blue-600 text-white shadow-md'
             }`}>
-              <Sparkles className="w-6 h-6" />
+              <Sparkles className="w-6 h-6 animate-pulse" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
@@ -82,19 +101,22 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                     setActivePortal('public');
                     handleNav(link.id);
                   }}
-                  className={`px-3.5 py-2 rounded-xl text-sm transition-all whitespace-nowrap ${
+                  className={`px-3.5 py-2 rounded-xl text-sm transition-all whitespace-nowrap relative ${
                     isActive
                       ? `${activeConfig.buttonSecondary} shadow-xs text-slate-900 font-extrabold border-pink-300`
                       : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 font-bold'
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-pink-500 rounded-full" />
+                  )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Right: User Portals, Login, Primary CTA & Themes Dropdown AT THE VERY END */}
+          {/* Right: User Portals, Login, Primary CTA & Themes Dropdown */}
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             
             {/* 1. User Portal Switcher Dropdown */}
@@ -125,6 +147,14 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                   </button>
 
                   <button
+                    onClick={() => switchPortal('teacher', 'teacher-login')}
+                    className="w-full text-left px-4 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between"
+                  >
+                    <span className="flex items-center gap-2">🧑‍🏫 Teacher Login & Hub</span>
+                    {activePortal === 'teacher' && <span className="w-2 h-2 rounded-full bg-pink-500" />}
+                  </button>
+
+                  <button
                     onClick={() => switchPortal('parent', 'parent-dashboard')}
                     className="w-full text-left px-4 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between"
                   >
@@ -141,14 +171,6 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                   </button>
 
                   <button
-                    onClick={() => switchPortal('teacher', 'teacher-dashboard')}
-                    className="w-full text-left px-4 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between"
-                  >
-                    <span className="flex items-center gap-2">🧑‍🏫 Skill & Expert Teacher Hub</span>
-                    {activePortal === 'teacher' && <span className="w-2 h-2 rounded-full bg-pink-500" />}
-                  </button>
-
-                  <button
                     onClick={() => switchPortal('admin', 'admin-dashboard')}
                     className="w-full text-left px-4 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between border-t border-slate-100 mt-1 pt-2"
                   >
@@ -159,15 +181,16 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
               )}
             </div>
 
-            {/* 2. Parent Login Button */}
+            {/* 2. Teacher Login Button */}
             <button
               onClick={() => {
-                setActivePortal('parent');
-                handleNav('parent-login');
+                setActivePortal('teacher');
+                handleNav('teacher-login');
               }}
-              className="text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-900 px-2 py-2 whitespace-nowrap"
+              className="text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-900 px-2 py-2 whitespace-nowrap flex items-center gap-1.5"
             >
-              Parent Login
+              <GraduationCap className="w-4 h-4 text-purple-600" />
+              <span>Teacher Login</span>
             </button>
 
             {/* 3. Primary CTA Button */}
@@ -176,13 +199,13 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
                 setActivePortal('parent');
                 handleNav('parent-register');
               }}
-              className={`px-4 py-2.5 ${activeConfig.cardRadius} text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${activeConfig.buttonPrimary}`}
+              className={`px-4 py-2.5 ${activeConfig.cardRadius} text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all whitespace-nowrap shadow-md hover:shadow-lg ${activeConfig.buttonPrimary}`}
             >
               <span>Enroll Child Free</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
-            {/* 4. Themes Dropdown AT THE VERY END (Button Label: "Themes") */}
+            {/* 4. Themes Dropdown */}
             <div className="relative">
               <button
                 onClick={() => {
@@ -262,7 +285,6 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
       {/* Mobile / Tablet Drawer */}
       {mobileOpen && (
         <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top-2">
-          
           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">
             UI/UX Design Themes
           </div>
@@ -299,9 +321,9 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
           </div>
           <div className="grid grid-cols-2 gap-1.5">
             <button onClick={() => switchPortal('public', 'home')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl">🌐 Public Site</button>
+            <button onClick={() => switchPortal('teacher', 'teacher-login')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl">🧑‍🏫 Teacher Login</button>
             <button onClick={() => switchPortal('parent', 'parent-dashboard')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl">👨‍👩‍👧 Parent Hub</button>
             <button onClick={() => switchPortal('school', 'school-dashboard')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl">🏫 School Portal</button>
-            <button onClick={() => switchPortal('teacher', 'teacher-dashboard')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl">🧑‍🏫 Teacher Hub</button>
             <button onClick={() => switchPortal('admin', 'admin-dashboard')} className="p-2.5 text-left text-xs font-bold bg-slate-100 rounded-xl col-span-2">🛡️ Admin Panel</button>
           </div>
         </div>

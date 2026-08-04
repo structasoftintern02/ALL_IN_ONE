@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { VariationBar } from './components/layout/VariationBar';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { ScrollProgress } from './components/common/ScrollProgress';
+import { BackToTop } from './components/common/BackToTop';
+import { PageTransition } from './components/common/PageTransition';
 
 // Public Pages
 import { HomePage } from './pages/public/HomePage';
@@ -43,7 +47,7 @@ export function AppContent() {
   const [activePortal, setActivePortal] = useState('public'); // 'public' | 'candidate' | 'company' | 'admin'
   const [activePage, setActivePage] = useState('home');
 
-  const isPortalLayout = activePortal === 'candidate' || activePortal === 'company' || activePortal === 'admin';
+  const pageKey = `${activePortal}-${activePage}`;
 
   const renderPage = () => {
     // PUBLIC PAGES
@@ -140,7 +144,10 @@ export function AppContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      {/* Top Scroll Reading Progress Indicator */}
+      <ScrollProgress />
+
       {/* Top Floating Variation Switcher */}
       <VariationBar />
 
@@ -152,10 +159,17 @@ export function AppContent() {
         setActivePortal={setActivePortal} 
       />
 
-      {/* Main Page Content */}
+      {/* Main Page Content with Animated Transitions */}
       <main className="flex-1">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          <PageTransition pageKey={pageKey}>
+            {renderPage()}
+          </PageTransition>
+        </AnimatePresence>
       </main>
+
+      {/* Back To Top Floating Action Button */}
+      <BackToTop />
 
       {/* Footer (Only on public view or bottom) */}
       {activePortal === 'public' && (

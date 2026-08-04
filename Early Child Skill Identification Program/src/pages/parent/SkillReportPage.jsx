@@ -1,7 +1,11 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { SidebarParent } from '../../components/layout/SidebarParent';
 import { mockParentUser } from '../../data/parentData';
+import { ScrollReveal } from '../../components/common/ScrollReveal';
+import { StaggerContainer, StaggerItem } from '../../components/common/StaggerContainer';
+import { AnimatedCounter } from '../../components/common/AnimatedCounter';
 import { Award, Download, CheckCircle2, Sparkles, Printer } from 'lucide-react';
 
 export const SkillReportPage = ({ setActivePage, setActivePortal }) => {
@@ -18,23 +22,25 @@ export const SkillReportPage = ({ setActivePage, setActivePortal }) => {
       <SidebarParent activePage="skill-report" setActivePage={setActivePage} setActivePortal={setActivePortal} />
 
       <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 overflow-y-auto w-full min-w-0">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+        <ScrollReveal direction="down" className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900">Child Skill Assessment Report</h1>
             <p className="text-xs text-slate-500">Certified Diagnostic Report for {child.name} ({child.age})</p>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             onClick={handleDownload}
             className={`w-full sm:w-auto px-4 py-2.5 ${activeConfig.cardRadius} text-xs font-extrabold flex items-center justify-center gap-2 ${activeConfig.buttonPrimary}`}
           >
             <Download className="w-4 h-4" />
             <span>Download Official PDF Report</span>
-          </button>
-        </div>
+          </motion.button>
+        </ScrollReveal>
 
         {/* Report Card Certificate Container */}
-        <div className="bg-white p-4 sm:p-8 rounded-3xl border-2 border-pink-200 shadow-xl space-y-6 sm:space-y-8 max-w-4xl mx-auto w-full">
+        <ScrollReveal direction="scale" amount={0.1} className="bg-white p-4 sm:p-8 rounded-3xl border-2 border-pink-200 shadow-xl space-y-6 sm:space-y-8 max-w-4xl mx-auto w-full">
           
           {/* Certificate Header */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-100 pb-6 text-center sm:text-left">
@@ -50,7 +56,9 @@ export const SkillReportPage = ({ setActivePage, setActivePortal }) => {
 
             <div className="p-3 bg-pink-50 rounded-2xl border border-pink-200 text-xs text-center w-full sm:w-auto">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Overall Diagnostic Index</span>
-              <span className="text-xl sm:text-2xl font-extrabold text-pink-600">{child.overallProgressScore}% (Gifted Aptitude)</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-pink-600">
+                <AnimatedCounter to={child.overallProgressScore} suffix="%" /> (Gifted Aptitude)
+              </span>
             </div>
           </div>
 
@@ -58,49 +66,77 @@ export const SkillReportPage = ({ setActivePage, setActivePortal }) => {
           <div className="space-y-4">
             <h3 className="font-extrabold text-slate-900 text-sm">Skill Domain Breakdown Gauges</h3>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-900">🧠 Cognitive & Logical Aptitude</span>
-                  <span className="text-purple-600 font-extrabold">{child.skillScores.cognitiveLogic}%</span>
+              <StaggerItem direction="up">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-slate-900">🧠 Cognitive & Logical Aptitude</span>
+                    <span className="text-purple-600 font-extrabold">{child.skillScores.cognitiveLogic}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: '0%' }}
+                      animate={{ width: `${child.skillScores.cognitiveLogic}%` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                      className="h-full bg-purple-600 rounded-full" 
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-purple-600 rounded-full" style={{ width: `${child.skillScores.cognitiveLogic}%` }} />
-                </div>
-              </div>
+              </StaggerItem>
 
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-900">🎨 Creative & Visual Expression</span>
-                  <span className="text-pink-600 font-extrabold">{child.skillScores.creativeArtistic}%</span>
+              <StaggerItem direction="up">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-slate-900">🎨 Creative & Visual Expression</span>
+                    <span className="text-pink-600 font-extrabold">{child.skillScores.creativeArtistic}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: '0%' }}
+                      animate={{ width: `${child.skillScores.creativeArtistic}%` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                      className="h-full bg-pink-500 rounded-full" 
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-pink-500 rounded-full" style={{ width: `${child.skillScores.creativeArtistic}%` }} />
-                </div>
-              </div>
+              </StaggerItem>
 
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-900">🏃‍♂️ Fine Motor & Hand-Eye Control</span>
-                  <span className="text-amber-600 font-extrabold">{child.skillScores.fineMotor}%</span>
+              <StaggerItem direction="up">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-slate-900">🏃‍♂️ Fine Motor & Hand-Eye Control</span>
+                    <span className="text-amber-600 font-extrabold">{child.skillScores.fineMotor}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: '0%' }}
+                      animate={{ width: `${child.skillScores.fineMotor}%` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                      className="h-full bg-amber-500 rounded-full" 
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 rounded-full" style={{ width: `${child.skillScores.fineMotor}%` }} />
-                </div>
-              </div>
+              </StaggerItem>
 
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-900">❤️ Emotional Intelligence (EQ)</span>
-                  <span className="text-emerald-600 font-extrabold">{child.skillScores.emotionalEQ}%</span>
+              <StaggerItem direction="up">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-slate-900">❤️ Emotional Intelligence (EQ)</span>
+                    <span className="text-emerald-600 font-extrabold">{child.skillScores.emotionalEQ}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: '0%' }}
+                      animate={{ width: `${child.skillScores.emotionalEQ}%` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                      className="h-full bg-emerald-500 rounded-full" 
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${child.skillScores.emotionalEQ}%` }} />
-                </div>
-              </div>
+              </StaggerItem>
 
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Strengths & Actionable Recommendations */}
@@ -136,7 +172,7 @@ export const SkillReportPage = ({ setActivePage, setActivePortal }) => {
             </div>
           </div>
 
-        </div>
+        </ScrollReveal>
 
       </div>
     </div>

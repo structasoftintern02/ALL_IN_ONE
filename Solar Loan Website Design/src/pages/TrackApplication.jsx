@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
 import { mockUserData } from '../data/dashboardData';
+import { ScrollReveal } from '../components/common/ScrollReveal';
+import { StaggerContainer, StaggerItem } from '../components/common/StaggerContainer';
 import { 
   CheckCircle2, Clock, FileCheck, Phone, Mail, ShieldCheck, Download, Search, AlertCircle 
 } from 'lucide-react';
@@ -16,7 +19,7 @@ export const TrackApplication = ({ setActivePage }) => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header & Application Lookup */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <ScrollReveal direction="down" amount={0.1} className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
             Real-Time Solar Credit Status
@@ -40,13 +43,13 @@ export const TrackApplication = ({ setActivePage }) => {
             Track
           </button>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Main Grid: Timeline + Loan Officer Card */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Timeline Visualization */}
-        <div className={`lg:col-span-8 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
+        <ScrollReveal direction="right" className={`lg:col-span-8 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <h3 className="text-base font-bold text-slate-900">Application Lifecycle</h3>
             <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
@@ -54,47 +57,51 @@ export const TrackApplication = ({ setActivePage }) => {
             </span>
           </div>
 
-          <div className="space-y-6 relative before:absolute before:inset-0 before:left-4 before:w-0.5 before:bg-slate-200">
+          <StaggerContainer className="space-y-6 relative before:absolute before:inset-0 before:left-4 before:w-0.5 before:bg-slate-200">
             {timeline.map((step) => (
-              <div key={step.step} className="relative flex items-start gap-4 pl-10">
-                {/* Node icon */}
-                <div className={`absolute left-0 top-0.5 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-xs ${
-                  step.completed 
-                    ? 'bg-emerald-600 text-white' 
-                    : step.step === 6 
-                    ? 'bg-amber-500 text-slate-950 ring-4 ring-amber-100 animate-pulse' 
-                    : 'bg-slate-100 text-slate-400 border border-slate-200'
-                }`}>
-                  {step.completed ? '✓' : step.step}
-                </div>
-
-                {/* Content Card */}
-                <div className="flex-1 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <h4 className="font-bold text-slate-900 text-sm">{step.title}</h4>
-                    <span className="text-[11px] text-slate-400 font-medium">{step.date}</span>
+              <StaggerItem key={step.step} direction="right">
+                <div className="relative flex items-start gap-4 pl-10">
+                  {/* Node icon */}
+                  <div className={`absolute left-0 top-0.5 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-xs transition-transform ${
+                    step.completed 
+                      ? 'bg-emerald-600 text-white' 
+                      : step.step === 6 
+                      ? 'bg-amber-500 text-slate-950 ring-4 ring-amber-100 animate-pulse' 
+                      : 'bg-slate-100 text-slate-400 border border-slate-200'
+                  }`}>
+                    {step.completed ? '✓' : step.step}
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">{step.details}</p>
 
-                  {step.step === 5 && step.completed && (
-                    <div className="pt-2">
-                      <button
-                        onClick={() => setActivePage('sanction')}
-                        className="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-lg shadow-xs flex items-center gap-1.5 transition-all"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        <span>View & Download Official Sanction Letter</span>
-                      </button>
+                  {/* Content Card */}
+                  <motion.div whileHover={{ x: 4 }} className="flex-1 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1 transition-all">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <h4 className="font-bold text-slate-900 text-sm">{step.title}</h4>
+                      <span className="text-[11px] text-slate-400 font-medium">{step.date}</span>
                     </div>
-                  )}
+                    <p className="text-xs text-slate-600 leading-relaxed">{step.details}</p>
+
+                    {step.step === 5 && step.completed && (
+                      <div className="pt-2">
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setActivePage('sanction')}
+                          className="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-lg shadow-xs flex items-center gap-1.5 transition-all"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>View & Download Official Sanction Letter</span>
+                        </motion.button>
+                      </div>
+                    )}
+                  </motion.div>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
-        </div>
+          </StaggerContainer>
+        </ScrollReveal>
 
         {/* Right Info Sidebar */}
-        <div className="lg:col-span-4 space-y-6">
+        <ScrollReveal direction="left" className="lg:col-span-4 space-y-6">
           
           {/* Officer Details */}
           <div className={`p-6 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 shadow-sm`}>
@@ -127,15 +134,17 @@ export const TrackApplication = ({ setActivePage }) => {
             <p className="text-xs text-slate-300">
               Our solar finance relationship officer can assist with DISCOM Net Metering grid paperwork.
             </p>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() => setActivePage('contact')}
               className="w-full py-2.5 bg-amber-400 text-slate-950 font-bold text-xs rounded-xl hover:bg-amber-300 transition-all"
             >
               Schedule Officer Callback
-            </button>
+            </motion.button>
           </div>
 
-        </div>
+        </ScrollReveal>
 
       </div>
 

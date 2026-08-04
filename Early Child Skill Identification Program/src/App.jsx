@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { VariationBar } from './components/layout/VariationBar';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { ScrollProgress } from './components/common/ScrollProgress';
+import { BackToTop } from './components/common/BackToTop';
+import { PageTransition } from './components/common/PageTransition';
 
 // Public Pages
 import { HomePage } from './pages/public/HomePage';
@@ -29,6 +33,7 @@ import { SchoolProfile } from './pages/school/SchoolProfile';
 import { StudentEnrollment } from './pages/school/StudentEnrollment';
 
 // Teacher Pages
+import { TeacherLogin } from './pages/teacher/TeacherLogin';
 import { TeacherDashboard } from './pages/teacher/TeacherDashboard';
 import { CertUploadPage } from './pages/teacher/CertUploadPage';
 
@@ -41,6 +46,8 @@ import { MasterDataManagement } from './pages/admin/MasterDataManagement';
 export function AppContent() {
   const [activePortal, setActivePortal] = useState('public'); // 'public' | 'parent' | 'school' | 'teacher' | 'admin'
   const [activePage, setActivePage] = useState('home');
+
+  const pageKey = `${activePortal}-${activePage}`;
 
   const renderPage = () => {
     // PUBLIC PAGES
@@ -106,12 +113,14 @@ export function AppContent() {
     // TEACHER PORTAL
     if (activePortal === 'teacher') {
       switch (activePage) {
+        case 'teacher-login':
+          return <TeacherLogin setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'teacher-dashboard':
           return <TeacherDashboard setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'teacher-cert-upload':
           return <CertUploadPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         default:
-          return <TeacherDashboard setActivePage={setActivePage} setActivePortal={setActivePortal} />;
+          return <TeacherLogin setActivePage={setActivePage} setActivePortal={setActivePortal} />;
       }
     }
 
@@ -135,7 +144,10 @@ export function AppContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      {/* Top Scroll Reading Progress Indicator */}
+      <ScrollProgress />
+
       {/* Top Floating Theme Switcher */}
       <VariationBar />
 
@@ -147,10 +159,17 @@ export function AppContent() {
         setActivePortal={setActivePortal} 
       />
 
-      {/* Main Page Content */}
+      {/* Main Page Content with Animated Transitions */}
       <main className="flex-1">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          <PageTransition pageKey={pageKey}>
+            {renderPage()}
+          </PageTransition>
+        </AnimatePresence>
       </main>
+
+      {/* Back To Top Floating Action Button */}
+      <BackToTop />
 
       {/* Footer */}
       {activePortal === 'public' && (

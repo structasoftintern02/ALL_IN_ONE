@@ -1,6 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { comparisonMatrix } from '../data/pricingData';
+import { ScrollReveal } from '../components/common/ScrollReveal';
 import { Check, X, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const PlanComparison = ({ setActivePage }) => {
@@ -10,7 +12,7 @@ export const PlanComparison = ({ setActivePage }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
+      <ScrollReveal direction="down" amount={0.1} className="text-center max-w-3xl mx-auto space-y-3">
         <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
           Detailed Feature Breakdown
         </span>
@@ -20,10 +22,10 @@ export const PlanComparison = ({ setActivePage }) => {
         <p className="text-xs sm:text-sm text-slate-500">
           Find the exact plan matching your customer conversation volume and AI automation needs.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* Comparison Table */}
-      <div className={`bg-white dark:bg-gray-900 ${activeConfig.cardRadius} border border-slate-200 dark:border-gray-800 shadow-xl overflow-x-auto`}>
+      <ScrollReveal direction="up" amount={0.1} className={`bg-white dark:bg-gray-900 ${activeConfig.cardRadius} border border-slate-200 dark:border-gray-800 shadow-xl overflow-x-auto`}>
         <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className="bg-slate-50 dark:bg-gray-800/80 border-b border-slate-200 dark:border-gray-800 text-xs uppercase font-bold text-slate-500 dark:text-slate-400">
@@ -60,17 +62,19 @@ export const PlanComparison = ({ setActivePage }) => {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollReveal>
 
       {/* Action Footer */}
       <div className="flex justify-center pt-4">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
           onClick={() => setActivePage('pricing')}
           className={`px-8 py-3.5 ${activeConfig.cardRadius} text-xs font-bold transition-all shadow-lg flex items-center gap-2 ${activeConfig.buttonPrimary}`}
         >
           <span>Choose Your Plan & Get Started</span>
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </motion.button>
       </div>
 
     </div>

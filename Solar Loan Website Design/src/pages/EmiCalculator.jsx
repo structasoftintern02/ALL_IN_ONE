@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
 import { DonutChart, BarChartSavings } from '../components/ui/ChartPlaceholder';
+import { ScrollReveal } from '../components/common/ScrollReveal';
 import { Calculator, ArrowRight, ShieldCheck, TrendingUp, Sparkles, DollarSign } from 'lucide-react';
 
 export const EmiCalculator = ({ setActivePage }) => {
@@ -24,7 +26,7 @@ export const EmiCalculator = ({ setActivePage }) => {
   const totalInterest = Math.max(0, totalPayment - loanAmount);
 
   // 25-Year Solar ROI Data Simulation
-  const estMonthlySavings = Math.round(emi * 1.35); // Solar generation value
+  const estMonthlySavings = Math.round(emi * 1.35);
   const yearlyGridBillData = [
     { year: 1, label: 'Yr 1', gridBillHeight: 25, savingsHeight: 40, savings: estMonthlySavings * 12 },
     { year: 5, label: 'Yr 5', gridBillHeight: 45, savingsHeight: 60, savings: estMonthlySavings * 12 * 5 },
@@ -35,10 +37,10 @@ export const EmiCalculator = ({ setActivePage }) => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-fade-in">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
+      <ScrollReveal direction="down" amount={0.1} className="text-center max-w-3xl mx-auto space-y-3">
         <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
           Solar Loan & ROI Visualizer
         </span>
@@ -48,13 +50,13 @@ export const EmiCalculator = ({ setActivePage }) => {
         <p className="text-slate-600 text-sm sm:text-base">
           Adjust loan parameters below to calculate exact monthly EMIs and 25-year solar electricity bill savings.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* Main Grid: Input Sliders + Output Cards + SVG Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Inputs (3 Sliders) */}
-        <div className={`lg:col-span-6 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm hover-lift`}>
+        <ScrollReveal direction="right" className={`lg:col-span-6 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
           
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
@@ -155,20 +157,22 @@ export const EmiCalculator = ({ setActivePage }) => {
             </div>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setActivePage('apply')}
-            className={`w-full py-3.5 ${activeConfig.cardRadius} text-sm font-extrabold transition-all btn-interaction flex items-center justify-center gap-2 ${activeConfig.buttonPrimary}`}
+            className={`w-full py-3.5 ${activeConfig.cardRadius} text-sm font-extrabold transition-all flex items-center justify-center gap-2 ${activeConfig.buttonPrimary}`}
           >
             <span>Apply For ₹{(loanAmount / 100000).toFixed(2)}L Solar Loan Now</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </motion.button>
 
-        </div>
+        </ScrollReveal>
 
         {/* Right Output: SVG Donut Chart + 25-Year ROI Projection Bar Chart */}
-        <div className="lg:col-span-6 space-y-6">
+        <ScrollReveal direction="left" className="lg:col-span-6 space-y-6">
           
-          <div className={`p-6 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} shadow-sm space-y-4 hover-lift`}>
+          <div className={`p-6 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} shadow-sm space-y-4`}>
             <h4 className="text-sm font-bold text-slate-900">Principal vs Interest Breakdown</h4>
             <DonutChart 
               principalAmount={loanAmount} 
@@ -177,11 +181,11 @@ export const EmiCalculator = ({ setActivePage }) => {
             />
           </div>
 
-          <div className="hover-lift">
+          <div>
             <BarChartSavings yearlyData={yearlyGridBillData} />
           </div>
 
-        </div>
+        </ScrollReveal>
 
       </div>
 

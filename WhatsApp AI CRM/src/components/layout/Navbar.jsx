@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme, VARIATIONS } from '../../context/ThemeContext';
 import { 
   MessageSquare, ArrowRight, Menu, X, LayoutDashboard, Palette, ChevronDown 
@@ -8,6 +8,19 @@ export const Navbar = ({ activePage, setActivePage }) => {
   const { variation, setVariation, activeConfig } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { id: 'landing', label: 'Home' },
@@ -25,7 +38,11 @@ export const Navbar = ({ activePage, setActivePage }) => {
   };
 
   return (
-    <header className={`sticky top-0 z-40 ${activeConfig.headerBg} shadow-sm border-b border-slate-200/60`}>
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${
+      isScrolled 
+        ? `${activeConfig.headerBg} backdrop-blur-xl shadow-lg border-b border-slate-200/80 dark:border-gray-800 py-1` 
+        : `${activeConfig.headerBg} border-b border-slate-200/60 py-2`
+    }`}>
       <div className="w-full px-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between h-20 gap-4">
           
@@ -69,7 +86,7 @@ export const Navbar = ({ activePage, setActivePage }) => {
                 <button
                   key={link.id}
                   onClick={() => handleNavigate(link.id)}
-                  className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all relative flex items-center gap-1.5 whitespace-nowrap ${
                     isActive
                       ? `${activeConfig.buttonSecondary} font-extrabold shadow-xs`
                       : activeConfig.isDark
@@ -79,6 +96,9 @@ export const Navbar = ({ activePage, setActivePage }) => {
                 >
                   {Icon && <Icon className="w-4 h-4" />}
                   {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-emerald-500 rounded-full" />
+                  )}
                 </button>
               );
             })}

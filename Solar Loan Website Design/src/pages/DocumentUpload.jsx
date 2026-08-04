@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
+import { ScrollReveal } from '../components/common/ScrollReveal';
+import { StaggerContainer, StaggerItem } from '../components/common/StaggerContainer';
 import { 
   Upload, FileText, CheckCircle2, Trash2, Eye, ShieldCheck, Sparkles, AlertCircle, File 
 } from 'lucide-react';
@@ -53,7 +56,7 @@ export const DocumentUpload = ({ setActivePage }) => {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <ScrollReveal direction="down" amount={0.1} className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
             Document Verification Vault
@@ -78,99 +81,101 @@ export const DocumentUpload = ({ setActivePage }) => {
             </span>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Grid of Drag & Drop Upload Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {documents.map((doc) => (
-          <div 
-            key={doc.id}
-            className={`p-5 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 flex flex-col justify-between relative`}
-          >
-            <div>
-              <div className="flex items-start justify-between">
-                <div>
-                  <h4 className="font-bold text-slate-900 text-xs sm:text-sm">
-                    {doc.label}
-                  </h4>
-                  <span className="text-[10px] text-slate-400">
-                    {doc.required ? 'Mandatory Document' : 'Optional Top-Up Support'}
-                  </span>
+          <StaggerItem key={doc.id} direction="scale">
+            <motion.div 
+              whileHover={{ y: -4 }}
+              className={`p-5 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 flex flex-col justify-between relative shadow-xs hover:shadow-md transition-all h-full`}
+            >
+              <div>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
+                      {doc.label}
+                    </h3>
+                    <span className="text-[10px] text-slate-400">
+                      {doc.required ? 'Mandatory Document' : 'Optional Top-Up Support'}
+                    </span>
+                  </div>
+
+                  {doc.status === 'uploaded' && (
+                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Verified
+                    </span>
+                  )}
+                  {doc.status === 'uploading' && (
+                    <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold animate-pulse">
+                      Uploading...
+                    </span>
+                  )}
+                  {doc.status === 'pending' && (
+                    <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium">
+                      Pending
+                    </span>
+                  )}
                 </div>
 
-                {doc.status === 'uploaded' && (
-                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Verified
-                  </span>
-                )}
-                {doc.status === 'uploading' && (
-                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold animate-pulse">
-                    Uploading...
-                  </span>
-                )}
-                {doc.status === 'pending' && (
-                  <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium">
-                    Pending
-                  </span>
-                )}
-              </div>
-
-              {/* Upload Drop Zone / Active File State */}
-              <div className="mt-4">
-                {doc.status === 'uploaded' ? (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-                    <div className="flex items-center gap-2 overflow-hidden">
-                      <FileText className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <div className="truncate">
-                        <span className="text-xs font-bold text-slate-800 block truncate">{doc.fileName}</span>
-                        <span className="text-[10px] text-slate-400">{doc.size}</span>
+                {/* Upload Drop Zone / Active File State */}
+                <div className="mt-4">
+                  {doc.status === 'uploaded' ? (
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                      <div className="flex items-center gap-2 overflow-hidden">
+                        <FileText className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-bold text-slate-800 block truncate">{doc.fileName}</span>
+                          <span className="text-[10px] text-slate-400">{doc.size}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button className="p-1 text-slate-400 hover:text-slate-700" title="Preview">
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleRemove(doc.id)} className="p-1 text-red-400 hover:text-red-600" title="Remove">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <button className="p-1 text-slate-400 hover:text-slate-700" title="Preview">
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button onClick={() => handleRemove(doc.id)} className="p-1 text-red-400 hover:text-red-600" title="Remove">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                  ) : doc.status === 'uploading' ? (
+                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                      <div className="flex justify-between text-xs text-slate-600 font-semibold">
+                        <span className="truncate">{doc.fileName}</span>
+                        <span>{doc.progress}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-teal-500 rounded-full transition-all duration-300" style={{ width: `${doc.progress}%` }} />
+                      </div>
                     </div>
-                  </div>
-                ) : doc.status === 'uploading' ? (
-                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                    <div className="flex justify-between text-xs text-slate-600 font-semibold">
-                      <span className="truncate">{doc.fileName}</span>
-                      <span>{doc.progress}%</span>
+                  ) : (
+                    <div 
+                      onClick={() => handleSimulateUpload(doc.id)}
+                      className="p-6 border-2 border-dashed border-slate-200 hover:border-teal-500 bg-slate-50/50 rounded-2xl text-center space-y-2 cursor-pointer transition-colors"
+                    >
+                      <Upload className="w-6 h-6 text-slate-400 mx-auto" />
+                      <div>
+                        <span className="text-xs font-bold text-slate-700 block">Click or Drop PDF/JPG</span>
+                        <span className="text-[10px] text-slate-400">Max size 10MB</span>
+                      </div>
                     </div>
-                    <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-teal-500 rounded-full transition-all duration-300" style={{ width: `${doc.progress}%` }} />
-                    </div>
-                  </div>
-                ) : (
-                  <div 
-                    onClick={() => handleSimulateUpload(doc.id)}
-                    className="p-6 border-2 border-dashed border-slate-200 hover:border-teal-500 bg-slate-50/50 rounded-2xl text-center space-y-2 cursor-pointer transition-colors"
-                  >
-                    <Upload className="w-6 h-6 text-slate-400 mx-auto" />
-                    <div>
-                      <span className="text-xs font-bold text-slate-700 block">Click or Drop PDF/JPG</span>
-                      <span className="text-[10px] text-slate-400">Max size 10MB</span>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {doc.status === 'pending' && (
-              <button
-                onClick={() => handleSimulateUpload(doc.id)}
-                className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all"
-              >
-                Upload {doc.id.toUpperCase()} File
-              </button>
-            )}
-          </div>
+              {doc.status === 'pending' && (
+                <button
+                  onClick={() => handleSimulateUpload(doc.id)}
+                  className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all mt-4"
+                >
+                  Upload {doc.id.toUpperCase()} File
+                </button>
+              )}
+            </motion.div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
       {/* Footer Action */}
       <div className="flex justify-between items-center pt-6 border-t border-slate-200">
@@ -181,12 +186,14 @@ export const DocumentUpload = ({ setActivePage }) => {
           ← Back to Application
         </button>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => setActivePage('track')}
           className={`px-8 py-3 ${activeConfig.cardRadius} text-xs font-extrabold transition-all ${activeConfig.buttonPrimary}`}
         >
           Proceed to Track Application →
-        </button>
+        </motion.button>
       </div>
 
     </div>

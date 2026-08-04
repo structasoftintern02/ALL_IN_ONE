@@ -129,10 +129,10 @@ export const Sidebar = ({ activePage, setActivePage }) => {
         </div>
       )}
 
-      {/* Desktop Sidebar (Strictly hidden on max-lg) */}
-      <aside className={`hidden lg:flex max-lg:hidden transition-all duration-300 relative z-30 flex-col justify-between flex-shrink-0 ${
+      {/* Desktop Sticky Sidebar */}
+      <aside className={`hidden lg:flex max-lg:hidden transition-all duration-300 sticky top-0 h-screen overflow-y-auto z-30 flex-col justify-between flex-shrink-0 ${
         collapsed ? 'w-20' : 'w-64'
-      } ${activeConfig.sidebarBg} border-r border-slate-800 p-4 min-h-screen`}>
+      } ${activeConfig.sidebarBg} border-r border-slate-800 p-4`}>
         <div>
           {/* Toggle Collapse Button */}
           <button

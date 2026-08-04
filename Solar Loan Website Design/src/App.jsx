@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { ConceptBar } from './components/layout/ConceptBar';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { ScrollProgress } from './components/common/ScrollProgress';
+import { BackToTop } from './components/common/BackToTop';
+import { PageTransition } from './components/common/PageTransition';
 
 // Pages
 import { Home } from './pages/Home';
@@ -56,17 +60,27 @@ export function AppContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      {/* Top Scroll Reading Progress Indicator */}
+      <ScrollProgress />
+
       {/* Concept Theme Switcher Floating Bar */}
       <ConceptBar />
 
       {/* Main Sticky Navigation Bar */}
       <Navbar activePage={activePage} setActivePage={setActivePage} />
 
-      {/* Active Page View Body */}
+      {/* Active Page View Body with Animated Route Transitions */}
       <main className="flex-1">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          <PageTransition pageKey={activePage}>
+            {renderPage()}
+          </PageTransition>
+        </AnimatePresence>
       </main>
+
+      {/* Floating Back To Top Button */}
+      <BackToTop />
 
       {/* Footer */}
       <Footer setActivePage={setActivePage} />

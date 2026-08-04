@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme, CONCEPTS } from '../context/ThemeContext';
+import { ScrollReveal } from '../components/common/ScrollReveal';
+import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { 
   Calculator, CheckCircle2, ArrowRight, ShieldCheck, Sparkles, Building2, 
   RefreshCw, TrendingUp, AlertCircle 
@@ -16,14 +19,11 @@ export const EligibilityChecker = ({ setActivePage }) => {
   const [existingEmi, setExistingEmi] = useState(10000);
   const [propertyType, setPropertyType] = useState('Independent Villa / House');
   const [solarProjectCost, setSolarProjectCost] = useState(350000);
-  
-  const [isCalculated, setIsCalculated] = useState(true);
 
   // Eligibility Calculation Engine
   const netAvailableIncome = Math.max(0, monthlyIncome - existingEmi);
-  const maxMonthlyEmiCapacity = netAvailableIncome * 0.50; // 50% FOIR (Fixed Obligation to Income Ratio)
+  const maxMonthlyEmiCapacity = netAvailableIncome * 0.50;
   
-  // Calculate max eligible loan amount based on 7-year tenure at 6.95%
   const monthlyRate = 6.95 / 12 / 100;
   const nMonths = 84;
   const maxLoanFromIncome = Math.round(
@@ -49,7 +49,7 @@ export const EligibilityChecker = ({ setActivePage }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
+      <ScrollReveal direction="down" amount={0.1} className="text-center max-w-3xl mx-auto space-y-3">
         <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider ${activeConfig.badgeClass} rounded-full`}>
           Instant Pre-Approval Engine
         </span>
@@ -59,12 +59,12 @@ export const EligibilityChecker = ({ setActivePage }) => {
         <p className="text-slate-600 text-sm sm:text-base">
           Find out how much solar loan amount you qualify for in real-time. Zero credit score inquiry impact.
         </p>
-      </div>
+      </ScrollReveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Form (7 Inputs) */}
-        <div className={`lg:col-span-7 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
+        <ScrollReveal direction="right" className={`lg:col-span-7 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
           
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -183,13 +183,15 @@ export const EligibilityChecker = ({ setActivePage }) => {
 
           </div>
 
-        </div>
+        </ScrollReveal>
 
         {/* Right Output Eligibility Result Card */}
-        <div className="lg:col-span-5 space-y-6">
+        <ScrollReveal direction="left" className="lg:col-span-5 space-y-6">
           
-          <div className={`p-6 sm:p-8 bg-white ${activeConfig.cardRadius} border-2 border-teal-500/30 shadow-xl space-y-6 relative overflow-hidden`}>
-            
+          <motion.div 
+            whileHover={{ y: -4 }}
+            className={`p-6 sm:p-8 bg-white ${activeConfig.cardRadius} border-2 border-teal-500/30 shadow-xl space-y-6 relative overflow-hidden transition-all`}
+          >
             {/* Top Badge */}
             <div className="flex items-center justify-between">
               <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs flex items-center gap-1">
@@ -238,27 +240,29 @@ export const EligibilityChecker = ({ setActivePage }) => {
             {/* Features Bullet List */}
             <div className="bg-slate-50 p-4 rounded-xl space-y-2 text-xs text-slate-700">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                 <span>Zero Collateral Required for your amount</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                 <span>0% Prepayment charges after 6 months</span>
               </div>
             </div>
 
             {/* Call to action */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setActivePage('apply')}
               className={`w-full py-4 ${activeConfig.cardRadius} text-sm font-extrabold text-center shadow-lg transition-all flex items-center justify-center gap-2 ${activeConfig.buttonPrimary}`}
             >
               <span>Apply Now With Prequalified Offer</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </motion.button>
 
-          </div>
+          </motion.div>
 
-        </div>
+        </ScrollReveal>
 
       </div>
 

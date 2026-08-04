@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { VariationBar } from './components/layout/VariationBar';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { ScrollProgress } from './components/common/ScrollProgress';
+import { BackToTop } from './components/common/BackToTop';
+import { PageTransition } from './components/common/PageTransition';
 
 import { countriesData, basePlans } from './data/pricingData';
 
@@ -75,7 +79,10 @@ export function AppContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      {/* Scroll Progress Bar at top */}
+      <ScrollProgress />
+
       {/* Top Floating Variation Switcher */}
       <VariationBar />
 
@@ -84,15 +91,22 @@ export function AppContent() {
         <Navbar activePage={activePage} setActivePage={setActivePage} />
       )}
 
-      {/* Main Page Content */}
+      {/* Main Page Content with Page Route Transition */}
       <main className="flex-1">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          <PageTransition key={activePage}>
+            {renderPage()}
+          </PageTransition>
+        </AnimatePresence>
       </main>
 
       {/* Show Footer on public views */}
       {!isCrmDashboardView && (
         <Footer setActivePage={setActivePage} />
       )}
+
+      {/* Floating Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

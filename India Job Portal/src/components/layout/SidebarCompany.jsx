@@ -114,7 +114,7 @@ export const SidebarCompany = ({ activePage, setActivePage, setActivePortal }) =
       )}
 
       {/* Desktop Sidebar (Strictly hidden on max-lg) */}
-      <aside className="hidden lg:flex max-lg:hidden w-64 bg-slate-950 text-white border-r border-slate-800 p-4 min-h-screen flex-col justify-between flex-shrink-0">
+      <aside className="hidden lg:flex max-lg:hidden w-64 bg-slate-950 text-white border-r border-slate-800 p-4 h-screen sticky top-0 overflow-y-auto flex-col justify-between flex-shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-8 px-2">
             <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-extrabold flex items-center justify-center text-lg">

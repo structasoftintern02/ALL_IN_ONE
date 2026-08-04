@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme, VARIATIONS } from '../context/ThemeContext';
 import { basePlans, countriesData } from '../data/pricingData';
+import { ScrollReveal } from '../components/common/ScrollReveal';
 import { CreditCard, CheckCircle2, ShieldCheck, Tag, ArrowRight, ArrowLeft, Lock } from 'lucide-react';
 
 export const SubscriptionFlow = ({ setActivePage, selectedPlan, selectedCountry }) => {
@@ -43,7 +45,7 @@ export const SubscriptionFlow = ({ setActivePage, selectedPlan, selectedCountry 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Form: Payment Details */}
-          <div className={`lg:col-span-7 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
+          <ScrollReveal direction="right" className={`lg:col-span-7 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 sm:p-8 space-y-6 shadow-sm`}>
             
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800 pb-3">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
@@ -138,19 +140,21 @@ export const SubscriptionFlow = ({ setActivePage, selectedPlan, selectedCountry 
                 </div>
               )}
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit"
                 className={`w-full py-3.5 ${activeConfig.cardRadius} text-xs font-extrabold transition-all shadow-lg flex items-center justify-center gap-2 ${activeConfig.buttonPrimary}`}
               >
                 <Lock className="w-4 h-4" />
                 <span>Pay {country.symbol}{totalAmount.toLocaleString('en-US')} & Complete Purchase</span>
-              </button>
+              </motion.button>
             </form>
 
-          </div>
+          </ScrollReveal>
 
           {/* Right Summary Sidebar */}
-          <div className="lg:col-span-5 space-y-6">
+          <ScrollReveal direction="left" className="lg:col-span-5 space-y-6">
             
             <div className={`p-6 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 shadow-sm`}>
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">Order Summary</h3>
@@ -209,13 +213,17 @@ export const SubscriptionFlow = ({ setActivePage, selectedPlan, selectedCountry 
               </div>
             </div>
 
-          </div>
+          </ScrollReveal>
 
         </div>
       ) : (
         /* Purchase Success Screen */
-        <div className={`p-8 ${activeConfig.cardBg} ${activeConfig.cardRadius} border border-slate-200 dark:border-gray-800 text-center space-y-6 shadow-2xl animate-in zoom-in-95`}>
-          <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-500 flex items-center justify-center mx-auto text-3xl">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`p-8 ${activeConfig.cardBg} ${activeConfig.cardRadius} border border-slate-200 dark:border-gray-800 text-center space-y-6 shadow-2xl`}
+        >
+          <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-500 flex items-center justify-center mx-auto text-3xl animate-bounce">
             <CheckCircle2 className="w-10 h-10" />
           </div>
 
@@ -232,14 +240,16 @@ export const SubscriptionFlow = ({ setActivePage, selectedPlan, selectedCountry 
           </div>
 
           <div className="flex flex-wrap justify-center gap-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() => setActivePage('dashboard')}
               className={`px-8 py-3.5 ${activeConfig.cardRadius} text-xs font-extrabold transition-all shadow-lg ${activeConfig.buttonPrimary}`}
             >
               Open Customer Dashboard →
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       )}
 
     </div>

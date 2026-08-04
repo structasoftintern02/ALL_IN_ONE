@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { jobListingsData } from '../../data/jobsData';
 import { JobCard } from '../../components/ui/JobCard';
+import { ScrollReveal } from '../../components/common/ScrollReveal';
+import { StaggerContainer, StaggerItem } from '../../components/common/StaggerContainer';
 import { Search, MapPin, Filter, SlidersHorizontal, LayoutGrid, Table as TableIcon, Check } from 'lucide-react';
 
 export const JobSearchPage = ({ setActivePage, setActivePortal }) => {
@@ -13,8 +16,7 @@ export const JobSearchPage = ({ setActivePage, setActivePortal }) => {
   const [selectedMode, setSelectedMode] = useState('All');
   const [selectedIndustry, setSelectedIndustry] = useState('All');
   const [minSalary, setMinSalary] = useState(0);
-  const [sortBy, setSortBy] = useState('recent'); // 'recent' | 'salary-high'
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
+  const [sortBy, setSortBy] = useState('recent');
 
   let filteredJobs = jobListingsData.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,23 +38,25 @@ export const JobSearchPage = ({ setActivePage, setActivePortal }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header Banner */}
-      <div className={`p-8 bg-gradient-to-r ${activeConfig.gradientBg} ${activeConfig.cardRadius} text-white space-y-3 shadow-xl`}>
-        <span className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
-          Smart Indian Job Search Engine
-        </span>
-        <h1 className={`text-3xl sm:text-4xl font-extrabold ${activeConfig.headingFont}`}>
-          Search 245,000+ Verified Indian Openings
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-200">
-          Filter by CTC salary range, experience, tech stack, and remote/hybrid work modes.
-        </p>
-      </div>
+      <ScrollReveal direction="down" amount={0.1}>
+        <div className={`p-8 bg-gradient-to-r ${activeConfig.gradientBg} ${activeConfig.cardRadius} text-white space-y-3 shadow-xl`}>
+          <span className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
+            Smart Indian Job Search Engine
+          </span>
+          <h1 className={`text-3xl sm:text-4xl font-extrabold ${activeConfig.headingFont}`}>
+            Search 245,000+ Verified Indian Openings
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-200">
+            Filter by CTC salary range, experience, tech stack, and remote/hybrid work modes.
+          </p>
+        </div>
+      </ScrollReveal>
 
       {/* Main Grid: Filters Sidebar + Job Listings */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Filter Sidebar */}
-        <div className={`lg:col-span-4 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 space-y-6 shadow-sm`}>
+        <ScrollReveal direction="right" className={`lg:col-span-4 bg-white ${activeConfig.cardRadius} ${activeConfig.cardBorder} p-6 space-y-6 shadow-sm sticky top-24`}>
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-emerald-600" />
@@ -143,7 +147,7 @@ export const JobSearchPage = ({ setActivePage, setActivePortal }) => {
             />
           </div>
 
-        </div>
+        </ScrollReveal>
 
         {/* Right Job Cards Grid */}
         <div className="lg:col-span-8 space-y-6">
@@ -165,18 +169,19 @@ export const JobSearchPage = ({ setActivePage, setActivePortal }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredJobs.map((job) => (
-              <JobCard
-                key={job.id}
-                job={job}
-                onApply={() => {
-                  setActivePortal('candidate');
-                  setActivePage('candidate-register');
-                }}
-              />
+              <StaggerItem key={job.id} direction="scale">
+                <JobCard
+                  job={job}
+                  onApply={() => {
+                    setActivePortal('candidate');
+                    setActivePage('candidate-register');
+                  }}
+                />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
 
         </div>
 
