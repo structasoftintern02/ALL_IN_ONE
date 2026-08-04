@@ -17,12 +17,15 @@ export const ParallaxBox = ({
 
   const y = useTransform(scrollYProgress, [0, 1], [speed * -100, speed * 100]);
 
+  const hasPosition = className.includes('absolute') || className.includes('fixed');
+  const baseClass = hasPosition ? className : `relative ${className}`;
+
   if (shouldReduceMotion) {
-    return <div className={className} style={style}>{children}</div>;
+    return <div className={baseClass} style={style}>{children}</div>;
   }
 
   return (
-    <div ref={ref} className={`relative ${className}`} style={style}>
+    <div ref={ref} className={baseClass} style={style}>
       <motion.div style={{ y }}>
         {children}
       </motion.div>

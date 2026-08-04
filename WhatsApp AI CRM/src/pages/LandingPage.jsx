@@ -7,9 +7,9 @@ import { ScrollReveal } from '../components/common/ScrollReveal';
 import { StaggerContainer, StaggerItem } from '../components/common/StaggerContainer';
 import { ParallaxBox } from '../components/common/ParallaxBox';
 import { AnimatedCounter } from '../components/common/AnimatedCounter';
-import { 
-  MessageSquare, Zap, Bot, Users, Send, ShieldCheck, ArrowRight, CheckCircle2, 
-  Sparkles, Star, Globe, TrendingUp, ChevronDown 
+import {
+  MessageSquare, Zap, Bot, Users, Send, ShieldCheck, ArrowRight, CheckCircle2,
+  Sparkles, Star, Globe, TrendingUp, ChevronDown
 } from 'lucide-react';
 
 export const LandingPage = ({ setActivePage }) => {
@@ -17,16 +17,15 @@ export const LandingPage = ({ setActivePage }) => {
 
   return (
     <div className="space-y-24 pb-16">
-      
+
       {/* SECTION 1: HERO */}
-      <section className={`relative pt-12 pb-24 border-b overflow-hidden ${
-        variation === VARIATIONS.DARK
+      <section className={`relative pt-12 pb-24 border-b overflow-hidden ${variation === VARIATIONS.DARK
           ? 'bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 border-gray-800 text-white'
           : variation === VARIATIONS.WHATSAPP
-          ? 'bg-gradient-to-b from-emerald-900 via-teal-900 to-slate-900 border-emerald-900 text-white'
-          : 'bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-950 border-slate-800 text-white'
-      }`}>
-        
+            ? 'bg-gradient-to-b from-emerald-900 via-teal-900 to-slate-900 border-emerald-900 text-white'
+            : 'bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-950 border-slate-800 text-white'
+        }`}>
+
         {/* Background Glow Overlay with Parallax */}
         <ParallaxBox speed={-0.15} className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <div className="w-[700px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl" />
@@ -34,10 +33,10 @@ export const LandingPage = ({ setActivePage }) => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Content */}
             <ScrollReveal direction="right" amount={0.1} className="lg:col-span-7 space-y-6 text-left">
-              
+
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold backdrop-blur-md">
                 <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                 <span>Meta Official WhatsApp Cloud API Partner</span>
@@ -153,9 +152,9 @@ export const LandingPage = ({ setActivePage }) => {
         </ScrollReveal>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           <StaggerItem direction="up">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               className={`p-8 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 shadow-sm hover:shadow-xl transition-all h-full`}
             >
@@ -170,7 +169,7 @@ export const LandingPage = ({ setActivePage }) => {
           </StaggerItem>
 
           <StaggerItem direction="up">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               className={`p-8 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 shadow-sm hover:shadow-xl transition-all h-full`}
             >
@@ -185,7 +184,7 @@ export const LandingPage = ({ setActivePage }) => {
           </StaggerItem>
 
           <StaggerItem direction="up">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               className={`p-8 ${activeConfig.cardBg} ${activeConfig.cardRadius} ${activeConfig.cardBorder} space-y-4 shadow-sm hover:shadow-xl transition-all h-full`}
             >

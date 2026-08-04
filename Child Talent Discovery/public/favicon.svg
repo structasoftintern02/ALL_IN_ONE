@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="50%" stop-color="#9333ea" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <!-- Star Glow Gradient -->
+    <radialGradient id="star-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="40%" stop-color="#fef08a" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Golden Star Gradient -->
+    <linearGradient id="star-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle Background with Soft Shadow -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#bg-grad)" />
+
+  <!-- Inner Subtle Ring -->
+  <rect x="48" y="48" width="416" height="416" rx="96" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="8" />
+
+  <!-- Outer Glow Circle -->
+  <circle cx="256" cy="256" r="160" fill="url(#star-glow)" opacity="0.35" />
+
+  <!-- Main Sparkle / Talent Star -->
+  <path d="M 256,96 C 256,184 184,256 96,256 C 184,256 256,328 256,416 C 256,328 328,256 416,256 C 328,256 256,184 256,96 Z" fill="url(#star-grad)" />
+
+  <!-- Top-Right Small Sparkle -->
+  <path d="M 370,110 C 370,132 352,150 330,150 C 352,150 370,168 370,190 C 370,168 388,150 410,150 C 388,150 370,132 370,110 Z" fill="#ffffff" opacity="0.95" />
+
+  <!-- Bottom-Left Tiny Sparkle -->
+  <path d="M 140,340 C 140,355 128,367 113,367 C 128,367 140,379 140,394 C 140,379 152,367 140,355 Z" fill="#fef08a" opacity="0.9" />
+
+  <!-- Center Core Light -->
+  <circle cx="256" cy="256" r="24" fill="#ffffff" />
+</svg>
