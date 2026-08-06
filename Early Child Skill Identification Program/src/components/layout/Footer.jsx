@@ -68,9 +68,9 @@ export const Footer = ({ setActivePage, setActivePortal }) => {
               Age-wise Programs
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><button onClick={() => handleNav('public', 'age-plans')} className="hover:text-white transition-colors">3–5 Years Early Observation</button></li>
-              <li><button onClick={() => handleNav('public', 'age-plans')} className="hover:text-white transition-colors">5–7 Years Cognitive Assessment</button></li>
-              <li><button onClick={() => handleNav('public', 'age-plans')} className="hover:text-white transition-colors">7–10 Years Advanced Talent</button></li>
+              <li><button onClick={() => handleNav('public', 'programs')} className="hover:text-white transition-colors">3–5 Years Early Observation</button></li>
+              <li><button onClick={() => handleNav('public', 'programs')} className="hover:text-white transition-colors">5–7 Years Cognitive Assessment</button></li>
+              <li><button onClick={() => handleNav('public', 'programs')} className="hover:text-white transition-colors">7–10 Years Advanced Talent</button></li>
               <li><button onClick={() => handleNav('public', 'programs')} className="hover:text-white transition-colors">STEM & Robotics Track</button></li>
               <li><button onClick={() => handleNav('public', 'programs')} className="hover:text-white transition-colors">Phonics & Speech Track</button></li>
             </ul>

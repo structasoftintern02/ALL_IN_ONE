@@ -13,8 +13,6 @@ import { HomePage } from './pages/public/HomePage';
 import { ProgramsPage } from './pages/public/ProgramsPage';
 import { AgeWisePlansPage } from './pages/public/AgeWisePlansPage';
 import { NearbySchoolsPage } from './pages/public/NearbySchoolsPage';
-import { SkillTeachersPage } from './pages/public/SkillTeachersPage';
-import { ExpertTeachersPage } from './pages/public/ExpertTeachersPage';
 import { ContactUsPage } from './pages/public/ContactUsPage';
 
 // Parent Pages
@@ -56,15 +54,10 @@ export function AppContent() {
         case 'home':
           return <HomePage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'programs':
-          return <ProgramsPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'age-plans':
-          return <AgeWisePlansPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
+          return <ProgramsPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'nearby-schools':
           return <NearbySchoolsPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
-        case 'skill-teachers':
-          return <SkillTeachersPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
-        case 'expert-teachers':
-          return <ExpertTeachersPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         case 'contact':
           return <ContactUsPage setActivePage={setActivePage} setActivePortal={setActivePortal} />;
         default:

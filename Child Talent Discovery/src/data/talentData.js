@@ -20,7 +20,7 @@ export const agePrograms = [
     bgColor: 'bg-rose-50 dark:bg-rose-950/30',
     borderColor: 'border-rose-200 dark:border-rose-900',
     badge: 'Foundation Stage',
-    duration: '2–3 Weeks',
+    duration: '1 Week',
     focus: 'Playful Observation & Sensory Exploration',
     modules: [
       { name: 'Early Observation', desc: 'Tracking curiosity patterns through visual & auditory stimuli' },
@@ -45,7 +45,7 @@ export const agePrograms = [
     bgColor: 'bg-purple-50 dark:bg-purple-950/30',
     borderColor: 'border-purple-200 dark:border-purple-900',
     badge: 'Growth Stage',
-    duration: '3–4 Weeks',
+    duration: '1 Week',
     focus: 'Logical Thinking & Creative Problem Solving',
     modules: [
       { name: 'Creativity', desc: 'Divergent thinking, imaginative storytelling, and artistic expression' },
@@ -70,7 +70,7 @@ export const agePrograms = [
     bgColor: 'bg-emerald-50 dark:bg-emerald-950/30',
     borderColor: 'border-emerald-200 dark:border-emerald-900',
     badge: 'Advanced Mapping',
-    duration: '4 Weeks',
+    duration: '1 Week',
     focus: 'Comprehensive Skill Profiling & Future Potential',
     modules: [
       { name: 'Talent Mapping', desc: 'Identification of core domain excellence (STEM, Arts, Leadership, Sports)' },

@@ -68,6 +68,18 @@ export const AgeWisePlansPage = ({ setActivePage, setActivePortal }) => {
                   <span className="text-pink-600 text-[11px] font-bold">{p.duration}</span>
                 </div>
                 <p className="text-slate-600 leading-relaxed">{p.description}</p>
+                {p.skills && (
+                  <div className="pt-2 border-t border-slate-200 space-y-1">
+                    <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block">Targeted Skills ({p.skills.length}):</span>
+                    <div className="flex flex-wrap gap-1">
+                      {p.skills.map((sk, idx) => (
+                        <span key={idx} className="px-2 py-0.5 bg-purple-100 text-purple-800 rounded-md font-semibold text-[10px]">
+                          ✨ {sk}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="space-y-1 pt-2 border-t border-slate-200">
                   {p.benefits.map((b, idx) => (
                     <div key={idx} className="flex items-center gap-1 text-[11px] text-slate-500">

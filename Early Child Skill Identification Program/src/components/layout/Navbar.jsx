@@ -25,11 +25,8 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
 
   const publicLinks = [
     { id: 'home', label: 'Home' },
-    { id: 'programs', label: 'Programs' },
-    { id: 'age-plans', label: 'Age-wise Plans' },
+    { id: 'programs', label: 'Age-wise Programs' },
     { id: 'nearby-schools', label: 'Nearby Schools' },
-    { id: 'skill-teachers', label: 'Skill Teachers' },
-    { id: 'expert-teachers', label: 'Expert Teachers' },
     { id: 'contact', label: 'Contact Us' }
   ];
 
@@ -58,7 +55,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
           : `${activeConfig.headerBg} shadow-xs border-b border-slate-200/60`
       }`}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
           {/* Left: Brand Logo */}
@@ -91,7 +88,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
           </div>
 
           {/* Center: Desktop Public Nav Links */}
-          <nav className="hidden xl:flex items-center gap-1.5">
+          <nav className="hidden lg:flex items-center gap-2">
             {publicLinks.map((link) => {
               const isActive = activePage === link.id && activePortal === 'public';
               return (
@@ -270,7 +267,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
           </div>
 
           {/* Mobile Menu trigger */}
-          <div className="flex xl:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
@@ -284,7 +281,7 @@ export const Navbar = ({ activePage, setActivePage, activePortal, setActivePorta
 
       {/* Mobile / Tablet Drawer */}
       {mobileOpen && (
-        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top-2">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top-2">
           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">
             UI/UX Design Themes
           </div>

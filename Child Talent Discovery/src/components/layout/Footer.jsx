@@ -16,6 +16,7 @@ const footerLinks = {
     { label: 'Leadership & Emotional', id: 'skills' },
   ],
   'Parent Tools': [
+    { label: 'Parent Portal Login', id: 'parent-login' },
     { label: 'Sample Report Demo', id: 'report-preview' },
     { label: '5-Step Process', id: 'how-it-works' },
     { label: 'Parent Testimonials', id: 'testimonials' },

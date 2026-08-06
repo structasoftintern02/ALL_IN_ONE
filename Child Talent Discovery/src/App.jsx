@@ -16,6 +16,8 @@ import { ReportPreviewPage } from './pages/ReportPreviewPage';
 import { TestimonialsPage } from './pages/TestimonialsPage';
 import { FAQPage } from './pages/FAQPage';
 import { ContactPage } from './pages/ContactPage';
+import { ParentLoginPage } from './pages/ParentLoginPage';
+import { ParentDashboardPage } from './pages/ParentDashboardPage';
 
 const PageTransition = ({ children, pageKey }) => (
   <motion.div
@@ -31,6 +33,8 @@ const PageTransition = ({ children, pageKey }) => (
 
 function AppContent() {
   const [activePage, setActivePage] = useState('home');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   const handleSetActivePage = (page) => {
     setActivePage(page);
@@ -49,6 +53,8 @@ function AppContent() {
       case 'testimonials':   return <TestimonialsPage setActivePage={handleSetActivePage} />;
       case 'faq':            return <FAQPage setActivePage={handleSetActivePage} />;
       case 'contact':        return <ContactPage setActivePage={handleSetActivePage} />;
+      case 'parent-login':   return <ParentLoginPage setActivePage={handleSetActivePage} setIsLoggedIn={setIsLoggedIn} setUserInfo={setUserInfo} />;
+      case 'parent-dashboard': return <ParentDashboardPage setActivePage={handleSetActivePage} userInfo={userInfo} setIsLoggedIn={setIsLoggedIn} />;
       default:               return <HomePage setActivePage={handleSetActivePage} />;
     }
   };
@@ -56,7 +62,7 @@ function AppContent() {
   return (
     <div className="flex flex-col min-h-screen relative">
       {/* Sticky Navigation Header */}
-      <Navbar activePage={activePage} setActivePage={handleSetActivePage} />
+      <Navbar activePage={activePage} setActivePage={handleSetActivePage} isLoggedIn={isLoggedIn} userInfo={userInfo} setIsLoggedIn={setIsLoggedIn} />
 
       {/* Main Page View with Animated Route Transitions */}
       <main className="flex-1">

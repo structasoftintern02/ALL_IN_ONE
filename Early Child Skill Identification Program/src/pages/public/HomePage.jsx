@@ -251,10 +251,10 @@ export const HomePage = ({ setActivePage, setActivePortal }) => {
             <p className="text-xs text-slate-500 mt-1">Tailored developmental milestones for early childhood growth.</p>
           </div>
           <button
-            onClick={() => setActivePage('age-plans')}
+            onClick={() => setActivePage('programs')}
             className={`px-5 py-2.5 ${activeConfig.cardRadius} text-xs font-bold ${activeConfig.buttonSecondary} hover:scale-105 transition-all`}
           >
-            Explore All Age Plans →
+            Explore Age-wise Programs →
           </button>
         </ScrollReveal>
 
