@@ -1,26 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeader } from '../common/SectionHeader';
 import { StaggerContainer, StaggerItem } from '../common/ScrollReveal';
-import { skillCategories } from '../../data/talentData';
+import { skillCategories as staticSkillCategories } from '../../data/talentData';
 import { useTheme } from '../../context/ThemeContext';
 import { CheckCircle2, ArrowRight, X } from 'lucide-react';
 
+const API_URL = 'http://localhost:5000/api/cms/child-talent';
+
 export const SkillCategories = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
+  const [cmsData, setCmsData] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
+
+  useEffect(() => {
+    fetchCmsData();
+  }, []);
+
+  const fetchCmsData = async () => {
+    try {
+      const res = await fetch(API_URL);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.skillsCms) {
+          setCmsData(data.skillsCms);
+        }
+      }
+    } catch (err) {
+      console.log('Using fallback for Skills CMS');
+    }
+  };
+
+  const skillCategories = cmsData?.skills || staticSkillCategories;
+  const sectionBadge = cmsData?.badge || "🎨 10 Skill Domains";
+  const sectionTitle = cmsData?.title || "Comprehensive Talent Categories";
+  const sectionSubtitle = cmsData?.subtitle || "We map 10 core development areas to build a 360-degree cognitive and creative profile of your child. Click any category for details.";
+  const ctaBtnText = cmsData?.ctaText || "See How These Skills Look in Talent Report →";
+  const vis = cmsData?.visibility || {};
+
+  const renderTitle = (titleText) => {
+    if (!titleText) return null;
+    const words = titleText.split(' ');
+    if (words.length <= 1) return <span>{titleText}</span>;
+    const lastWords = words.length >= 3 ? words.slice(-2).join(' ') : words.pop();
+    const firstPart = words.length >= 3 ? words.slice(0, -2).join(' ') : words.join(' ');
+    return (
+      <>
+        {firstPart} <span className={`bg-gradient-to-r ${activeConfig.gradientText} bg-clip-text text-transparent`}>{lastWords}</span>
+      </>
+    );
+  };
 
   return (
     <section className="py-20 lg:py-28 bg-slate-50 dark:bg-slate-800/50" id="skill-categories">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
-        <SectionHeader
-          badge="🎨 12 Skill Domains"
-          title={<>Comprehensive <span className={`bg-gradient-to-r ${activeConfig.gradientText} bg-clip-text text-transparent`}>Talent Categories</span></>}
-          subtitle="We map 12 core development areas to build a 360-degree cognitive and creative profile of your child. Click any category for details."
-        />
+        {(vis.sectionBadge !== false || vis.sectionTitle !== false || vis.sectionSubtitle !== false) && (
+          <SectionHeader
+            badge={vis.sectionBadge !== false ? sectionBadge : undefined}
+            title={vis.sectionTitle !== false ? renderTitle(sectionTitle) : undefined}
+            subtitle={vis.sectionSubtitle !== false ? sectionSubtitle : undefined}
+          />
+        )}
 
-        {/* 12 Skill Cards Grid */}
+        {/* 10 Skill Cards Grid */}
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5" staggerDelay={0.05}>
           {skillCategories.map((skill) => (
             <StaggerItem key={skill.id} direction="up">
@@ -120,14 +163,16 @@ export const SkillCategories = ({ setActivePage }) => {
           )}
         </AnimatePresence>
 
-        <div className="text-center">
-          <button
-            onClick={() => setActivePage('report-preview')}
-            className={`px-8 py-4 ${activeConfig.cardRadius} text-white font-extrabold text-sm shadow-lg ${activeConfig.buttonPrimary}`}
-          >
-            See How These Skills Look in Talent Report →
-          </button>
-        </div>
+        {(vis.ctaButton !== false) && (
+          <div className="text-center">
+            <button
+              onClick={() => setActivePage('report-preview')}
+              className={`px-8 py-4 ${activeConfig.cardRadius} text-white font-extrabold text-sm shadow-lg ${activeConfig.buttonPrimary}`}
+            >
+              {ctaBtnText}
+            </button>
+          </div>
+        )}
 
       </div>
     </section>

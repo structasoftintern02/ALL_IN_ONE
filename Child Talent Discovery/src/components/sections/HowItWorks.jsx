@@ -1,38 +1,81 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '../common/SectionHeader';
-import { howItWorksSteps } from '../../data/talentData';
+import { howItWorksSteps as defaultSteps } from '../../data/talentData';
 import { useTheme } from '../../context/ThemeContext';
 import { ArrowRight, Clock, Sparkles } from 'lucide-react';
 
+const API_URL = 'http://localhost:5000/api/cms/child-talent';
+
 export const HowItWorks = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
+  const [cmsData, setCmsData] = useState(null);
+
+  useEffect(() => {
+    fetchCmsData();
+  }, []);
+
+  const fetchCmsData = async () => {
+    try {
+      const res = await fetch(API_URL);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.howItWorksCms) {
+          setCmsData(data.howItWorksCms);
+        }
+      }
+    } catch (err) {
+      console.log('Using fallback for How It Works CMS');
+    }
+  };
+
+  const steps = cmsData?.steps || defaultSteps;
+  const sectionBadge = cmsData?.badge || "🛣️ 5-Step Learning Journey";
+  const sectionTitle = cmsData?.title || "How Child Talent Discovery Works";
+  const sectionSubtitle = cmsData?.subtitle || "Simple, non-stressful, and parent-guided. Discover your child's innate strengths in 5 simple steps.";
+  const vis = cmsData?.visibility || {};
+
+  const renderTitle = (titleText) => {
+    if (!titleText) return null;
+    const words = titleText.split(' ');
+    if (words.length <= 1) return <span>{titleText}</span>;
+    const lastWord = words.pop();
+    const firstPart = words.join(' ');
+    return (
+      <>
+        {firstPart} <span className={`bg-gradient-to-r ${activeConfig.gradientText} bg-clip-text text-transparent`}>{lastWord}</span>
+      </>
+    );
+  };
 
   return (
     <section className="py-20 lg:py-28 bg-white dark:bg-slate-900" id="how-it-works">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
 
-        <SectionHeader
-          badge="🛣️ 5-Step Learning Journey"
-          title={<>How Child Talent Discovery <span className={`bg-gradient-to-r ${activeConfig.gradientText} bg-clip-text text-transparent`}>Works</span></>}
-          subtitle="Simple, non-stressful, and parent-guided. Discover your child's innate strengths in 5 simple steps."
-        />
+        {(vis.sectionBadge !== false || vis.sectionTitle !== false || vis.sectionSubtitle !== false) && (
+          <SectionHeader
+            badge={vis.sectionBadge !== false ? sectionBadge : undefined}
+            title={vis.sectionTitle !== false ? renderTitle(sectionTitle) : undefined}
+            subtitle={vis.sectionSubtitle !== false ? sectionSubtitle : undefined}
+          />
+        )}
 
         {/* Step-by-Step Vertical Timeline */}
-        <div className="relative">
-          {/* Vertical connecting gradient line */}
-          <div className="absolute left-8 top-10 bottom-10 w-1 bg-gradient-to-b from-rose-500 via-purple-500 to-emerald-500 hidden sm:block rounded-full" />
+        {(vis.stepsList !== false) && (
+          <div className="relative">
+            {/* Vertical connecting gradient line */}
+            <div className="absolute left-8 top-10 bottom-10 w-1 bg-gradient-to-b from-rose-500 via-purple-500 to-emerald-500 hidden sm:block rounded-full" />
 
-          <div className="space-y-6">
-            {howItWorksSteps.map((step, i) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative"
-              >
+            <div className="space-y-6">
+              {steps.map((step, i) => (
+                <motion.div
+                  key={step.step || i}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="relative"
+                >
                 <div className="flex items-start gap-5 sm:gap-8">
 
                   {/* Step Number Avatar */}
@@ -72,31 +115,37 @@ export const HowItWorks = ({ setActivePage }) => {
             ))}
           </div>
         </div>
+        )}
 
         {/* Bottom Call to Action Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className={`bg-gradient-to-r from-purple-800 via-rose-700 to-indigo-900 text-white ${activeConfig.cardRadius} p-8 text-center shadow-2xl space-y-4`}
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-extrabold text-amber-300 border border-white/20">
-            <Sparkles className="w-3.5 h-3.5" /> 100% Home Play-Based Assessment
-          </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold">Ready to Discover Your Child's Core Potential?</h3>
-          <p className="text-purple-100 text-sm max-w-xl mx-auto leading-relaxed">
-            Takes less than 20 minutes of guided observational play. Get your 12-page Talent Profile immediately.
-          </p>
-          <div className="pt-2">
-            <button
-              onClick={() => setActivePage('report-preview')}
-              className={`px-8 py-4 ${activeConfig.cardRadius} bg-white text-purple-900 font-extrabold text-sm hover:bg-rose-50 transition-all inline-flex items-center gap-2 shadow-lg hover:scale-105`}
-            >
-              <span>Explore Sample Assessment Report</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </motion.div>
+        {(vis.ctaBanner !== false) && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`bg-gradient-to-r from-purple-800 via-rose-700 to-indigo-900 text-white ${activeConfig.cardRadius} p-8 text-center shadow-2xl space-y-4`}
+          >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-extrabold text-amber-300 border border-white/20">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{cmsData?.ctaBadge || "100% Home Play-Based Assessment"}</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold">
+              {cmsData?.ctaTitle || "Ready to Discover Your Child's Core Potential?"}
+            </h3>
+            <p className="text-purple-100 text-sm max-w-xl mx-auto leading-relaxed">
+              {cmsData?.ctaSubtitle || "Takes less than 20 minutes of guided observational play. Get your 12-page Talent Profile immediately."}
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => setActivePage('report-preview')}
+                className={`px-8 py-4 ${activeConfig.cardRadius} bg-white text-purple-900 font-extrabold text-sm hover:bg-rose-50 transition-all inline-flex items-center gap-2 shadow-lg hover:scale-105`}
+              >
+                <span>{cmsData?.ctaText || "Explore Sample Assessment Report →"}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
 
       </div>
     </section>

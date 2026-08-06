@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { Sparkles, ArrowRight, ShieldCheck, Star, Award, Heart, Brain, Zap, ChevronRight } from 'lucide-react';
 import { AnimatedCounter } from '../common/AnimatedCounter';
-import { statsData } from '../../data/talentData';
+import { statsData as staticStatsData } from '../../data/talentData';
+import { useData } from '../../context/DataContext';
 
 // Floating Decorative Elements
 const FloatingBadge = ({ icon, text, delay = 0, className = '' }) => (
@@ -21,6 +22,16 @@ const FloatingBadge = ({ icon, text, delay = 0, className = '' }) => (
 
 export const Hero = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
+  const dataContext = useData();
+  const homeCms = dataContext?.homeCms;
+  const statsData = (homeCms?.stats && homeCms.stats.length > 0) ? homeCms.stats : (dataContext?.statsData || staticStatsData);
+
+  const displayTagline = homeCms?.heroTagline || activeConfig.heroTagline;
+  const displayTitle = homeCms?.heroTitle || "Discover Your Child's Hidden Natural Talents Early";
+  const displaySubtitle = homeCms?.heroSubtitle || "Every child is born with unique cognitive, creative, and athletic gifts. Our play-based scientific skill mapping helps parents identify natural strengths between ages 3 to 10 years.";
+  const displayCtaPrimary = homeCms?.ctaPrimary || "Start Free Assessment";
+  const displayCtaSecondary = homeCms?.ctaSecondary || "View Sample Report";
+  const displayTrustedText = homeCms?.trustedParentsText || "Trusted by 25,000+ Indian Parents for early talent mapping.";
 
   return (
     <section className="relative pt-10 pb-20 lg:pt-16 lg:pb-28 overflow-hidden">
@@ -31,10 +42,14 @@ export const Hero = ({ setActivePage }) => {
       <div className="absolute bottom-10 left-1/3 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Floating Badges */}
-      <FloatingBadge icon="🧠" text="Cognitive & Spatial Mapping" delay={0} className="top-12 left-[5%] hidden lg:block" />
-      <FloatingBadge icon="🎨" text="Divergent Creativity" delay={1.2} className="top-48 left-[8%] hidden xl:block" />
-      <FloatingBadge icon="🔬" text="STEM & Logic Readiness" delay={0.8} className="top-16 right-[6%] hidden lg:block" />
-      <FloatingBadge icon="👑" text="Leadership & Empathy" delay={2} className="bottom-24 right-[10%] hidden xl:block" />
+      {(homeCms?.visibility?.floatingBadges !== false) && (
+        <>
+          <FloatingBadge icon="🧠" text="Cognitive & Spatial Mapping" delay={0} className="top-12 left-[5%] hidden lg:block" />
+          <FloatingBadge icon="🎨" text="Divergent Creativity" delay={1.2} className="top-48 left-[8%] hidden xl:block" />
+          <FloatingBadge icon="🔬" text="STEM & Logic Readiness" delay={0.8} className="top-16 right-[6%] hidden lg:block" />
+          <FloatingBadge icon="👑" text="Leadership & Empathy" delay={2} className="bottom-24 right-[10%] hidden xl:block" />
+        </>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
@@ -43,118 +58,121 @@ export const Hero = ({ setActivePage }) => {
           <div className="lg:col-span-7 space-y-6 text-left">
 
             {/* Tagline Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className={`inline-flex items-center gap-2 px-4 py-2 ${activeConfig.cardRadius} ${activeConfig.badgeClass} text-xs font-extrabold shadow-sm`}
-            >
-              <Sparkles className="w-4 h-4 animate-pulse text-amber-500 flex-shrink-0" />
-              <span>{activeConfig.heroTagline}</span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-70 flex-shrink-0" />
-            </motion.div>
+            {(homeCms?.visibility?.heroTagline !== false) && (
+              <motion.div
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className={`inline-flex items-center gap-2 px-4 py-2 ${activeConfig.cardRadius} ${activeConfig.badgeClass} text-xs font-extrabold shadow-sm`}
+              >
+                <Sparkles className="w-4 h-4 animate-pulse text-amber-500 flex-shrink-0" />
+                <span>{displayTagline}</span>
+                <ChevronRight className="w-3.5 h-3.5 opacity-70 flex-shrink-0" />
+              </motion.div>
+            )}
 
             {/* Main Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.08] text-slate-900 dark:text-white"
-            >
-              Discover Your Child's{' '}
-              <span className={`bg-gradient-to-r ${activeConfig.gradientText} bg-clip-text text-transparent`}>
-                Hidden Natural Talents
-              </span>{' '}
-              Early
-            </motion.h1>
+            {(homeCms?.visibility?.heroTitle !== false) && (
+              <motion.h1
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.08] text-slate-900 dark:text-white"
+              >
+                {displayTitle}
+              </motion.h1>
+            )}
 
             {/* Subtitle Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl"
-            >
-              Every child is born with unique cognitive, creative, and athletic gifts. Our <strong className="text-slate-900 dark:text-white font-extrabold">play-based scientific skill mapping</strong> helps parents identify natural strengths between ages <span className="text-purple-600 dark:text-purple-300 font-extrabold">3 to 10 years</span>.
-            </motion.p>
+            {(homeCms?.visibility?.heroSubtitle !== false) && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl"
+              >
+                {displaySubtitle}
+              </motion.p>
+            )}
 
             {/* Feature Highlights Badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3"
-            >
-              {[
-                { icon: ShieldCheck, text: 'No Stressful Exams', color: 'text-emerald-500 dark:text-emerald-400' },
-                { icon: Brain, text: 'Gardner AI Framework', color: 'text-purple-500 dark:text-purple-400' },
-                { icon: Star, text: '12-Page Talent Profile', color: 'text-amber-500 dark:text-amber-400' },
-                { icon: Heart, text: '100% Parent-Guided', color: 'text-rose-500 dark:text-rose-400' },
-                { icon: Zap, text: 'Instant Report', color: 'text-cyan-500 dark:text-cyan-400' },
-                { icon: Award, text: 'Ages 3 to 10 Years', color: 'text-indigo-500 dark:text-indigo-400' },
-              ].map(({ icon: Icon, text, color }, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center gap-2 text-xs font-extrabold text-slate-800 dark:text-slate-100 bg-white/90 dark:bg-slate-800/90 p-2.5 ${activeConfig.cardRadius} border border-slate-200/90 dark:border-slate-700/80 shadow-xs hover:scale-102 transition-all`}
-                >
-                  <Icon className={`w-4 h-4 flex-shrink-0 ${color}`} />
-                  <span>{text}</span>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Hero CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2"
-            >
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                id="hero-start-btn"
-                onClick={() => setActivePage('how-it-works')}
-                className={`px-8 py-4 ${activeConfig.cardRadius} text-base font-extrabold flex items-center justify-center gap-3 transition-all ${activeConfig.buttonPrimary}`}
+            {(homeCms?.visibility?.featureBadges !== false) && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3"
               >
-                <span>Start Free Assessment</span>
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                id="hero-sample-report-btn"
-                onClick={() => setActivePage('report-preview')}
-                className={`px-7 py-4 ${activeConfig.cardRadius} font-extrabold text-base transition-all flex items-center justify-center gap-2 ${activeConfig.buttonSecondary}`}
-              >
-                <span>📊 View Sample Report</span>
-              </motion.button>
-            </motion.div>
-
-            {/* Social Trust Proof */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex items-center gap-3 pt-1 text-xs text-slate-600 dark:text-slate-300"
-            >
-              <div className="flex -space-x-2 flex-shrink-0">
-                {['SM', 'RN', 'PA', 'KS'].map((initials, i) => (
+                {(homeCms?.featureBadges || [
+                  'No Stressful Exams',
+                  'Gardner AI Framework',
+                  '12-Page Talent Profile',
+                  '100% Parent-Guided',
+                  'Instant Report',
+                  'Ages 3 to 10 Years'
+                ]).map((text, i) => (
                   <div
                     key={i}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-[10px] text-white border-2 border-white dark:border-slate-900 ${
-                      ['bg-rose-500', 'bg-purple-600', 'bg-emerald-500', 'bg-amber-500'][i]
-                    }`}
+                    className={`flex items-center gap-2 text-xs font-extrabold text-slate-800 dark:text-slate-100 bg-white/90 dark:bg-slate-800/90 p-2.5 ${activeConfig.cardRadius} border border-slate-200/90 dark:border-slate-700/80 shadow-xs hover:scale-102 transition-all`}
                   >
-                    {initials}
+                    <ShieldCheck className="w-4 h-4 flex-shrink-0 text-emerald-500" />
+                    <span>{text}</span>
                   </div>
                 ))}
-              </div>
-              <p>
-                Trusted by <strong className="text-slate-900 dark:text-white font-extrabold">25,000+ Indian Parents</strong> for early talent mapping.
-              </p>
-            </motion.div>
+              </motion.div>
+            )}
+
+            {/* Hero CTAs */}
+            {(homeCms?.visibility?.ctas !== false) && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  id="hero-start-btn"
+                  onClick={() => setActivePage('how-it-works')}
+                  className={`px-8 py-4 ${activeConfig.cardRadius} text-base font-extrabold flex items-center justify-center gap-3 transition-all ${activeConfig.buttonPrimary}`}
+                >
+                  <span>{displayCtaPrimary}</span>
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  id="hero-sample-report-btn"
+                  onClick={() => setActivePage('report-preview')}
+                  className={`px-7 py-4 ${activeConfig.cardRadius} font-extrabold text-base transition-all flex items-center justify-center gap-2 ${activeConfig.buttonSecondary}`}
+                >
+                  <span>📊 {displayCtaSecondary}</span>
+                </motion.button>
+              </motion.div>
+            )}
+
+            {/* Social Trust Proof */}
+            {(homeCms?.visibility?.trustedText !== false) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="flex items-center gap-3 pt-2"
+              >
+                <div className="flex -space-x-2">
+                  {['AS', 'AG', 'VP', 'DR'].map((av, idx) => (
+                    <div key={idx} className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 border-2 border-white dark:border-slate-900 text-white font-extrabold text-[10px] flex items-center justify-center">
+                      {av}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  {displayTrustedText}
+                </p>
+              </motion.div>
+            )}
 
           </div>
 
@@ -177,20 +195,22 @@ export const Hero = ({ setActivePage }) => {
               </div>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-3">
-                {statsData.map((stat, i) => (
-                  <div
-                    key={i}
-                    className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/60 border border-slate-100 dark:border-slate-700"
-                  >
-                    <div className="text-xl mb-1">{stat.icon}</div>
-                    <div className={`text-xl font-extrabold ${stat.color}`}>
-                      <AnimatedCounter end={stat.value} suffix={stat.suffix} decimal={stat.decimal} />
+              {(homeCms?.visibility?.stats !== false) && (
+                <div className="grid grid-cols-2 gap-3">
+                  {statsData.map((stat, i) => (
+                    <div
+                      key={i}
+                      className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/60 border border-slate-100 dark:border-slate-700"
+                    >
+                      <div className="text-xl mb-1">{stat.icon}</div>
+                      <div className={`text-xl font-extrabold ${stat.color}`}>
+                        <AnimatedCounter end={stat.value} suffix={stat.suffix} decimal={stat.decimal} />
+                      </div>
+                      <div className="text-[11px] font-bold text-slate-600 dark:text-slate-300 mt-0.5">{stat.label}</div>
                     </div>
-                    <div className="text-[11px] font-bold text-slate-600 dark:text-slate-300 mt-0.5">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               {/* Age Program Selector Buttons */}
               <div className="space-y-2">

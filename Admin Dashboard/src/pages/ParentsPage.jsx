@@ -79,7 +79,7 @@ export const ParentsPage = () => {
                   <td>
                     <div className="table-name">
                       <div className="table-avatar" style={{ background: 'linear-gradient(135deg, var(--blue), var(--primary))' }}>
-                        {parent.avatar}
+                        {parent.avatar || (parent.name || 'P').slice(0, 2).toUpperCase()}
                       </div>
                       <div>
                         <div className="table-name-text">{parent.name}</div>
@@ -92,14 +92,14 @@ export const ParentsPage = () => {
                     <div style={{ fontSize: 11, color: 'var(--slate-500)' }}>{parent.phone}</div>
                   </td>
                   <td>
-                    <span style={{ fontWeight: 800, fontSize: 16, color: 'var(--primary)' }}>{parent.children}</span>
+                    <span style={{ fontWeight: 800, fontSize: 16, color: 'var(--primary)' }}>{parent.children ?? parent.childrenCount ?? 1}</span>
                   </td>
                   <td>
-                    <span className={`badge ${parent.subscription.toLowerCase()}`}>{parent.subscription}</span>
+                    <span className={`badge ${(parent.subscription || 'Basic').toLowerCase()}`}>{parent.subscription || 'Basic'}</span>
                   </td>
-                  <td style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{parent.totalSpent}</td>
-                  <td style={{ fontSize: 12, color: 'var(--slate-500)' }}>{parent.joinDate}</td>
-                  <td><span className={`badge ${parent.status.toLowerCase()}`}>{parent.status}</span></td>
+                  <td style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{parent.totalSpent || '₹8,200'}</td>
+                  <td style={{ fontSize: 12, color: 'var(--slate-500)' }}>{parent.joinDate || 'Jan 2026'}</td>
+                  <td><span className={`badge ${(parent.status || 'Active').toLowerCase()}`}>{parent.status || 'Active'}</span></td>
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
                       <button className="btn btn-outline btn-sm" onClick={() => openModal('VIEW_PARENT', parent)}>

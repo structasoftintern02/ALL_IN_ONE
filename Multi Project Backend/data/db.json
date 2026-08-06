@@ -1,0 +1,743 @@
+{
+  "platformStats": {
+    "totalChildren": {
+      "value": "28,450",
+      "trend": "+12.5%",
+      "direction": "up",
+      "label": "Total Children",
+      "color": "indigo"
+    },
+    "activeSchools": {
+      "value": "342",
+      "trend": "+8.2%",
+      "direction": "up",
+      "label": "Active Schools",
+      "color": "blue"
+    },
+    "certifiedTeachers": {
+      "value": "1,248",
+      "trend": "+15.3%",
+      "direction": "up",
+      "label": "Certified Teachers",
+      "color": "purple"
+    },
+    "assessmentsDone": {
+      "value": "4,280",
+      "trend": "+22.1%",
+      "direction": "up",
+      "label": "Assessments Done",
+      "color": "emerald"
+    },
+    "monthlyRevenue": {
+      "value": "₹18.6L",
+      "trend": "+18.7%",
+      "direction": "up",
+      "label": "Monthly Revenue",
+      "color": "amber"
+    },
+    "activeParents": {
+      "value": "12,840",
+      "trend": "+9.4%",
+      "direction": "up",
+      "label": "Active Parents",
+      "color": "pink"
+    }
+  },
+  "children": [
+    {
+      "id": "ENR-2801",
+      "childName": "Aarav Sharma",
+      "parentName": "Priya Sharma",
+      "age": "4 yrs",
+      "ageGroup": "3–5",
+      "school": "Delhi Public School",
+      "program": "Sensory & Motor Assessment",
+      "date": "05 Aug 2026",
+      "status": "Active",
+      "avatar": "AS"
+    },
+    {
+      "id": "ENR-2802",
+      "childName": "Ananya Gupta",
+      "parentName": "Rohit Gupta",
+      "age": "6 yrs",
+      "ageGroup": "5–7",
+      "school": "Ryan International",
+      "program": "Creative Logic & Pattern",
+      "date": "04 Aug 2026",
+      "status": "Active",
+      "avatar": "AG"
+    },
+    {
+      "id": "ENR-2803",
+      "childName": "Vihaan Patel",
+      "parentName": "Neha Patel",
+      "age": "8 yrs",
+      "ageGroup": "7–10",
+      "school": "Greenwood High",
+      "program": "Junior Robotics",
+      "date": "04 Aug 2026",
+      "status": "Pending",
+      "avatar": "VP"
+    },
+    {
+      "id": "ENR-2804",
+      "childName": "Diya Reddy",
+      "parentName": "Sanjay Reddy",
+      "age": "5 yrs",
+      "ageGroup": "3–5",
+      "school": "Orchids Intl.",
+      "program": "Language & Phonetic Explorer",
+      "date": "03 Aug 2026",
+      "status": "Active",
+      "avatar": "DR"
+    },
+    {
+      "id": "ENR-2805",
+      "childName": "Arjun Nair",
+      "parentName": "Meera Nair",
+      "age": "7 yrs",
+      "ageGroup": "5–7",
+      "school": "Amity Global",
+      "program": "Visual Arts & Expression",
+      "date": "03 Aug 2026",
+      "status": "Active",
+      "avatar": "AN"
+    },
+    {
+      "id": "ENR-2806",
+      "childName": "Ishaan Mehta",
+      "parentName": "Kavita Mehta",
+      "age": "9 yrs",
+      "ageGroup": "7–10",
+      "school": "The Heritage School",
+      "program": "Musical Pitch & Rhythm",
+      "date": "02 Aug 2026",
+      "status": "Completed",
+      "avatar": "IM"
+    }
+  ],
+  "parents": [
+    {
+      "id": "PAR-101",
+      "name": "Priya Sharma",
+      "email": "priya.sharma@gmail.com",
+      "phone": "+91 98765 43210",
+      "childrenCount": 1,
+      "city": "New Delhi",
+      "status": "Active",
+      "joinDate": "12 Jan 2026"
+    },
+    {
+      "id": "PAR-102",
+      "name": "Rohit Gupta",
+      "email": "rohit.gupta@outlook.com",
+      "phone": "+91 98123 45678",
+      "childrenCount": 2,
+      "city": "Mumbai",
+      "status": "Active",
+      "joinDate": "24 Feb 2026"
+    },
+    {
+      "id": "PAR-103",
+      "name": "Neha Patel",
+      "email": "neha.patel@yahoo.com",
+      "phone": "+91 97654 32109",
+      "childrenCount": 1,
+      "city": "Bengaluru",
+      "status": "Active",
+      "joinDate": "15 Mar 2026"
+    }
+  ],
+  "pendingTeachers": [
+    {
+      "id": "VT-001",
+      "name": "Sunita Rao, M.Sc.",
+      "specialization": "Phonics & Speech Coach",
+      "cert": "Early Childhood Phonics Diploma (Trinity)",
+      "experience": "8 yrs",
+      "date": "04 Aug 2026",
+      "status": "Pending Review",
+      "avatar": "SR",
+      "rating": 4.8
+    },
+    {
+      "id": "VT-002",
+      "name": "Manish Verma, B.E.",
+      "specialization": "Robotics Instructor",
+      "cert": "STEM Pedagogy Certified (IIT)",
+      "experience": "5 yrs",
+      "date": "04 Aug 2026",
+      "status": "Pending Review",
+      "avatar": "MV",
+      "rating": 4.6
+    },
+    {
+      "id": "VT-003",
+      "name": "Prerna Singh, M.Ed.",
+      "specialization": "Motor Skills Therapist",
+      "cert": "Occupational Therapy License",
+      "experience": "12 yrs",
+      "date": "03 Aug 2026",
+      "status": "Pending Review",
+      "avatar": "PS",
+      "rating": 4.9
+    }
+  ],
+  "pendingSchools": [
+    {
+      "id": "VS-001",
+      "name": "Greenwood High International",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "affiliation": "CBSE/AFF/193048",
+      "type": "K-12 International",
+      "students": 2400,
+      "infrastructure": 92,
+      "date": "04 Aug 2026",
+      "status": "Pending Audit"
+    },
+    {
+      "id": "VS-002",
+      "name": "The Heritage School",
+      "city": "Gurugram",
+      "state": "Haryana",
+      "affiliation": "CBSE/AFF/240156",
+      "type": "Progressive",
+      "students": 1800,
+      "infrastructure": 88,
+      "date": "03 Aug 2026",
+      "status": "Pending Audit"
+    }
+  ],
+  "skillCategories": [
+    {
+      "id": "cognitive",
+      "title": "Cognitive Skills",
+      "icon": "🧠",
+      "color": "from-purple-500 to-indigo-600",
+      "desc": "Memory retention, spatial orientation, information processing speed, and mental agility."
+    },
+    {
+      "id": "motor",
+      "title": "Motor & Physical",
+      "icon": "🏃",
+      "color": "from-blue-500 to-cyan-600",
+      "desc": "Fine & gross motor coordination, hand-eye balance, dexterity, and physical agility."
+    },
+    {
+      "id": "creative",
+      "title": "Creative & Arts",
+      "icon": "🎨",
+      "color": "from-rose-500 to-pink-600",
+      "desc": "Visual imagination, divergent thinking, artistic expression, and color-space harmony."
+    },
+    {
+      "id": "stem",
+      "title": "STEM & Logic",
+      "icon": "🤖",
+      "color": "from-amber-500 to-orange-600",
+      "desc": "Mathematical logic, sequential reasoning, algorithmic thinking, and problem solving."
+    }
+  ],
+  "activities": [
+    {
+      "id": 1,
+      "type": "enrollment",
+      "message": "Aarav Sharma enrolled in Sensory & Motor Assessment",
+      "time": "2 mins ago",
+      "icon": "👶"
+    },
+    {
+      "id": 2,
+      "type": "verification",
+      "message": "Teacher Sunita Rao submitted certification for review",
+      "time": "15 mins ago",
+      "icon": "📋"
+    }
+  ],
+  "homeCms": {
+    "heroTagline": "Nurturing Young Minds & Natural Abilities ",
+    "heroTitle": "Discover Your Child's Hidden Natural Talents Early",
+    "heroSubtitle": "Every child is born with unique cognitive, creative, and athletic gifts. Our play-based scientific skill mapping helps parents identify natural strengths between ages 3 to 10 years.",
+    "ctaPrimary": "Start Free Assessment",
+    "ctaSecondary": "View Sample Report",
+    "trustedParentsText": "Trusted by 25,000+ Indian Parents for early talent mapping.",
+    "stats": [
+      {
+        "label": "Children Mapped",
+        "value": "25,000+",
+        "icon": "👶"
+      },
+      {
+        "label": "Parent Rating",
+        "value": "4.9 / 5",
+        "icon": "⭐"
+      },
+      {
+        "label": "Skill Domains",
+        "value": "10 Areas",
+        "icon": "🎨"
+      },
+      {
+        "label": "Accuracy Score",
+        "value": "98%",
+        "icon": "🎯"
+      }
+    ],
+    "featureBadges": [
+      "No Stressful Exams",
+      "Gardner AI Framework",
+      "12-Page Talent Profile",
+      "100% Parent-Guided",
+      "Instant Report",
+      "Ages 3 to 10 Years"
+    ],
+    "visibility": {
+      "heroTagline": true,
+      "heroTitle": true,
+      "heroSubtitle": true,
+      "featureBadges": true,
+      "ctas": true,
+      "trustedText": true,
+      "stats": true,
+      "floatingBadges": true
+    },
+    "howItWorksCms": {
+      "pageHeroBadge": "🐣 Simple Parent Guide",
+      "pageHeroTitle": "How Talent Assessment Works",
+      "pageHeroSubtitle": "A step-by-step walkthrough of registration, play-based task activities, instant report generation, and personalized learning guidance.",
+      "badge": "🛣️ 5-Step Learning Journey",
+      "title": "How Child Talent Discovery Works",
+      "subtitle": "Simple, non-stressful, and parent-guided. Discover your child's innate strengths in 5 simple steps.",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Register Your Child",
+          "desc": "Create a free parent profile and enter basic information about your child (age, interests, observed habits).",
+          "icon": "📝",
+          "duration": "2 Minutes",
+          "color": "from-rose-500 to-purple-500",
+          "details": "Quick 2-minute registration without complex paperwork. Completely private and secure."
+        },
+        {
+          "step": "02",
+          "title": "Choose Age Group",
+          "desc": "Select the age-tailored evaluation module (3–5 Yrs, 5–7 Yrs, or 7–10 Yrs) matching your child's developmental milestone.",
+          "icon": "🎯",
+          "duration": "1 Minute",
+          "color": "from-purple-500 to-indigo-500",
+          "details": "Each age bucket features scientifically calibrated games, observational scenarios, and task prompts."
+        },
+        {
+          "step": "03",
+          "title": "Complete Skill Assessment",
+          "desc": "Engage in fun, play-based interactive tasks and observational activities alongside your child at home.",
+          "icon": "🎮",
+          "duration": "15-20 Minutes",
+          "color": "from-indigo-500 to-cyan-500",
+          "details": "No stressful exams! Activities feel like enjoyable puzzles, creative drawing, or rhythm games."
+        },
+        {
+          "step": "04",
+          "title": "Receive Talent Report",
+          "desc": "Get an instant, comprehensive 12-page Talent Profile breaking down cognitive, creative, and social strengths.",
+          "icon": "📊",
+          "duration": "Instant Download",
+          "color": "from-cyan-500 to-emerald-500",
+          "details": "Includes visual radar charts, benchmark percentiles, and identified hidden natural talents."
+        },
+        {
+          "step": "05",
+          "title": "Get Personalized Recommendations",
+          "desc": "Unlock a customized 3-year learning pathway, recommended hobbies, books, and talent nurturing activities.",
+          "icon": "🚀",
+          "duration": "Ongoing Guidance",
+          "color": "from-emerald-500 to-amber-500",
+          "details": "Direct advice on what activities to encourage and how to avoid early academic burnout."
+        }
+      ],
+      "ctaBadge": "✨ 100% Home Play-Based Assessment",
+      "ctaTitle": "Ready to Discover Your Child's Core Potential?",
+      "ctaSubtitle": "Takes less than 20 minutes of guided observational play. Get your 12-page Talent Profile immediately.",
+      "ctaText": "Explore Sample Assessment Report →",
+      "visibility": {
+        "pageHero": true,
+        "sectionBadge": true,
+        "sectionTitle": true,
+        "sectionSubtitle": true,
+        "stepsList": true,
+        "ctaBanner": true
+      }
+    },
+    "sampleReportCms": {
+      "pageHeroBadge": "📊 Sample Report Interactive Demo",
+      "pageHeroTitle": "Talent Assessment Report Preview",
+      "pageHeroSubtitle": "Interact with a full sample report dashboard. See how scores, radar charts, strengths, growth areas, and curated roadmaps are delivered to parents.",
+      "badge": "📊 Sample Assessment Report Preview",
+      "title": "Explore a Real Talent Discovery Report",
+      "subtitle": "Here is a live preview of the 12-page comprehensive talent report parents receive immediately after play assessment.",
+      "childName": "Aarav Sharma",
+      "childInitials": "AS",
+      "verifiedBadgeText": "Verified Profile",
+      "age": "6 Years 4 Months",
+      "assessmentDate": "August 2026",
+      "overallScore": 89,
+      "downloadButtonText": "Download Sample PDF",
+      "archetypeTitle": "IDENTIFIED TALENT ARCHETYPE",
+      "archetype": "The Creative Explorer & STEM Strategist",
+      "summary": "Aarav demonstrates exceptional spatial reasoning, divergent artistic imagination, and high verbal storytelling ability. He learns best through visual building tasks and hands-on experiments.",
+      "skills": [
+        {
+          "name": "Cognitive Reasoning",
+          "score": 95,
+          "percentile": "95th Percentile",
+          "status": "High Talent",
+          "color": "bg-purple-500"
+        },
+        {
+          "name": "Creative Expression",
+          "score": 90,
+          "percentile": "90th Percentile",
+          "status": "High Talent",
+          "color": "bg-rose-500"
+        },
+        {
+          "name": "Communication & Phonics",
+          "score": 90,
+          "percentile": "92nd Percentile",
+          "status": "High Talent",
+          "color": "bg-amber-500"
+        },
+        {
+          "name": "STEM & Logical Math",
+          "score": 85,
+          "percentile": "85th Percentile",
+          "status": "Strong Ability",
+          "color": "bg-emerald-500"
+        },
+        {
+          "name": "Social Collaboration",
+          "score": 90,
+          "percentile": "88th Percentile",
+          "status": "High Talent",
+          "color": "bg-cyan-500"
+        },
+        {
+          "name": "Fine Motor Control",
+          "score": 80,
+          "percentile": "75th Percentile",
+          "status": "Developing Well",
+          "color": "bg-indigo-500"
+        }
+      ],
+      "strengths": [
+        "3D Spatial Construction (Lego / Block Assembly)",
+        "Inventive Story Creation with Rich Vocabulary",
+        "Rapid Pattern Recognition in Visual Puzzles",
+        "Empathetic Group Play & Peer Coordination"
+      ],
+      "growthAreas": [
+        "Fine Finger Control in Precision Scissors Crafting",
+        "Task Persistence when Initial Attempt Fails"
+      ],
+      "recommendedActivities": [
+        {
+          "title": "Robotics & Lego Structural Building",
+          "type": "STEM Skill",
+          "duration": "2x / week"
+        },
+        {
+          "title": "Illustrated Comic Story Writing",
+          "type": "Creativity",
+          "duration": "Daily Play"
+        },
+        {
+          "title": "Origami & Clay Sculpting",
+          "type": "Fine Motor Control",
+          "duration": "3x / week"
+        },
+        {
+          "title": "Junior Chess & Logic Sequences",
+          "type": "Cognitive",
+          "duration": "Weekend Fun"
+        }
+      ],
+      "footerPrivacyNote": "🔒 All assessments are 100% private, parent-guided, and based on observational play metrics.",
+      "ctaButtonText": "Get a Report Like This for Your Child →",
+      "visibility": {
+        "pageHero": true,
+        "sectionBadge": true,
+        "sectionTitle": true,
+        "sectionSubtitle": true,
+        "reportCard": true,
+        "ctaButton": true
+      }
+    },
+    "ageProgramsCms": {
+      "pageHeroBadge": "⚡ Age-Tailored Modules drhth",
+      "pageHeroTitle": "Age-wise Development Programs drhgrtdh ",
+      "pageHeroSubtitle": "Explore dedicated skill evaluation programs tailored for 3-5 year, 5-7 year, and 7-10 year milestone groups.",
+      "badge": "🌱 Age-wise Development Programs ",
+      "title": "Tailored Programs for Every Milestone",
+      "subtitle": "Children develop distinct cognitive and physical capabilities at different ages. Our programs match your child's exact developmental stage.",
+      "programs": [
+        {
+          "id": "age-3-5",
+          "ageRange": "3 – 5 Years",
+          "title": "Early Discovery & Foundation",
+          "subtitle": "Observation & Natural Curiosity Stage",
+          "icon": "🌱",
+          "badge": "Foundation Stage",
+          "duration": "1 Week",
+          "focus": "Playful Observation & Sensory Exploration"
+        },
+        {
+          "id": "age-5-7",
+          "ageRange": "5 – 7 Years",
+          "title": "Creative & Cognitive Growth",
+          "subtitle": "Exploration & Expression Stage",
+          "icon": "🚀",
+          "badge": "Growth Stage",
+          "duration": "1 Week",
+          "focus": "Logical Thinking & Creative Problem Solving"
+        },
+        {
+          "id": "age-7-10",
+          "ageRange": "7 – 10 Years",
+          "title": "Talent Mapping & Leadership",
+          "subtitle": "Specialization & Mastery Stage",
+          "icon": "🏆",
+          "badge": "Advanced Mapping",
+          "duration": "1 Week",
+          "focus": "Comprehensive Skill Profiling & Future Potential"
+        }
+      ],
+      "visibility": {
+        "pageHero": true,
+        "sectionBadge": true,
+        "sectionTitle": true,
+        "sectionSubtitle": true,
+        "programsList": true,
+        "modulesList": true,
+        "outcomesList": true,
+        "bottomQuickCards": true
+      }
+    },
+    "skillsCms": {
+      "cmsPageCategory": "Child Talent Discovery • Skill Domains CMS",
+      "cmsPageTitle": "",
+      "cmsPageSubtitle": "Edit page titles, 10 core skill category cards, key metrics, activities, and CTA buttons live on the website.",
+      "pageHeroBadge": "🎨 10 Core Domains",
+      "pageHeroTitle": "10 Skill Development Categories",
+      "pageHeroSubtitle": "From cognitive memory and STEM logic to divergent creativity, leadership, and motor dexterity — explore all 10 mapped domains.",
+      "badge": "🎨 10 Skill Domains",
+      "title": "Comprehensive Talent Categories",
+      "subtitle": "We map 10 core development areas to build a 360-degree cognitive and creative profile of your child. Click any category for details.",
+      "ctaText": "See How These Skills Look in Talent Report →",
+      "skills": [
+        {
+          "id": "cognitive",
+          "title": "Cognitive Skills",
+          "icon": "🧠",
+          "color": "from-purple-500 to-indigo-600",
+          "desc": "Memory retention, spatial orientation, information processing speed, and mental agility.",
+          "keyMetrics": [
+            "Pattern Recognition",
+            "Processing Speed",
+            "Spatial Reasoning"
+          ],
+          "recommendedActivities": [
+            "Memory Matrix Games",
+            "3D Spatial Puzzles",
+            "Logic Sequence Challenges"
+          ]
+        },
+        {
+          "id": "communication",
+          "title": "Communication Skills",
+          "icon": "💬",
+          "color": "from-rose-500 to-pink-600",
+          "desc": "Verbal clarity, active listening, vocabulary breadth, and expressive storytelling ability.",
+          "keyMetrics": [
+            "Vocabulary Breadth",
+            "Expressive Clarity",
+            "Active Listening"
+          ],
+          "recommendedActivities": [
+            "Story Building Sessions",
+            "Role-play Drama",
+            "Show & Tell Activities"
+          ]
+        },
+        {
+          "id": "creativity",
+          "title": "Creativity & Innovation",
+          "icon": "🎨",
+          "color": "from-amber-500 to-orange-600",
+          "desc": "Divergent thinking, imaginative problem solving, visual arts, and original idea generation.",
+          "keyMetrics": [
+            "Idea Originality",
+            "Visual Expression",
+            "Divergent Thinking"
+          ],
+          "recommendedActivities": [
+            "Mixed-media Crafting",
+            "Invent-a-Story",
+            "Unconventional Design"
+          ]
+        },
+        {
+          "id": "leadership",
+          "title": "Leadership & Initiative",
+          "icon": "👑",
+          "color": "from-emerald-500 to-teal-600",
+          "desc": "Responsibility, team motivation, decision making under ambiguity, and confidence.",
+          "keyMetrics": [
+            "Initiative Taking",
+            "Peer Guidance",
+            "Decision Quality"
+          ],
+          "recommendedActivities": [
+            "Group Project Lead",
+            "Community Challenge",
+            "Goal Setting Drills"
+          ]
+        },
+        {
+          "id": "problem-solving",
+          "title": "Problem Solving",
+          "icon": "🧩",
+          "color": "from-cyan-500 to-blue-600",
+          "desc": "Deconstructing complex challenges, hypothesis testing, and systematic solution finding.",
+          "keyMetrics": [
+            "Analytical Breakdown",
+            "Trial & Learning",
+            "Strategy Formation"
+          ],
+          "recommendedActivities": [
+            "Escape Room Puzzles",
+            "Coding Logic Blocks",
+            "Rube Goldberg Contraptions"
+          ]
+        },
+        {
+          "id": "emotional-intelligence",
+          "title": "Emotional Intelligence",
+          "icon": "❤️",
+          "color": "from-red-500 to-rose-600",
+          "desc": "Self-awareness, emotional regulation, empathy for others, and resilience in adversity.",
+          "keyMetrics": [
+            "Emotion Naming",
+            "Self-Regulation",
+            "Empathy Response"
+          ],
+          "recommendedActivities": [
+            "Emotion Journaling",
+            "Mindful Breathing",
+            "Collaborative Story Circle"
+          ]
+        },
+        {
+          "id": "motor-skills",
+          "title": "Motor Skills",
+          "icon": "🏃",
+          "color": "from-lime-500 to-emerald-600",
+          "desc": "Fine finger dexterity, gross physical balance, hand-eye coordination, and spatial control.",
+          "keyMetrics": [
+            "Fine Dexterity",
+            "Balance Control",
+            "Hand-Eye Timing"
+          ],
+          "recommendedActivities": [
+            "Origami Folding",
+            "Obstacle Course Training",
+            "Juggling Basics"
+          ]
+        },
+        {
+          "id": "social-skills",
+          "title": "Social Skills",
+          "icon": "🤝",
+          "color": "from-violet-500 to-purple-600",
+          "desc": "Peer cooperation, conflict resolution, sharing, respectful listening, and group play.",
+          "keyMetrics": [
+            "Sharing Tendency",
+            "Conflict Navigation",
+            "Group Play Integration"
+          ],
+          "recommendedActivities": [
+            "Cooperative Board Games",
+            "Team Building Tasks",
+            "Peer Buddy Sharing"
+          ]
+        },
+        {
+          "id": "stem-readiness",
+          "title": "STEM Readiness",
+          "icon": "🔬",
+          "color": "from-indigo-500 to-blue-600",
+          "desc": "Scientific curiosity, numerical intuition, mechanical understanding, and experimentation.",
+          "keyMetrics": [
+            "Scientific Curiosity",
+            "Number Sense",
+            "Hypothesis Building"
+          ],
+          "recommendedActivities": [
+            "Kitchen Science Experiments",
+            "Lego Robotics Construction",
+            "Math Magic Puzzles"
+          ]
+        },
+        {
+          "id": "art-music",
+          "title": "Art & Music",
+          "icon": "🎵",
+          "color": "from-fuchsia-500 to-pink-600",
+          "desc": "Rhythmic sensitivity, auditory discrimination, pitch perception, and visual harmony.",
+          "keyMetrics": [
+            "Rhythm Precision",
+            "Color Harmony",
+            "Pitch Discrimination"
+          ],
+          "recommendedActivities": [
+            "Percussion Rhythm Games",
+            "Color Theory Sketching",
+            "Melody Recognition"
+          ]
+        }
+      ],
+      "visibility": {
+        "pageHero": true,
+        "sectionBadge": true,
+        "sectionTitle": true,
+        "sectionSubtitle": true,
+        "skillCards": true,
+        "ctaButton": true
+      }
+    }
+  },
+  "agePrograms": [
+    {
+      "id": "age-3-5",
+      "ageRange": "3 – 5 Years",
+      "title": "Early Discovery & Foundation",
+      "subtitle": "Observation & Natural Curiosity Stage",
+      "icon": "🌱"
+    },
+    {
+      "id": "age-5-7",
+      "ageRange": "5 – 7 Years",
+      "title": "Creative & Cognitive Growth",
+      "subtitle": "Exploration & Expression Stage",
+      "icon": "🚀"
+    },
+    {
+      "id": "age-7-10",
+      "ageRange": "7 – 10 Years",
+      "title": "Talent Mapping & Leadership",
+      "subtitle": "Specialization & Mastery Stage",
+      "icon": "🏆"
+    }
+  ]
+}

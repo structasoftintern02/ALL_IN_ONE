@@ -82,10 +82,14 @@ function AppContent() {
   );
 }
 
+import { DataProvider } from './context/DataContext';
+
 export default function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <DataProvider>
+        <AppContent />
+      </DataProvider>
     </ThemeProvider>
   );
 }

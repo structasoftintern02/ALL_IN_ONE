@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+/* ============================================ */
+/* PARENT PORTAL — DESIGN SYSTEM               */
+/* ============================================ */
+
+:root {
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --primary: #0D9488;
+  --primary-dark: #0F766E;
+  --primary-light: #5EEAD4;
+  --accent: #8B5CF6;
+  --accent-light: #C4B5FD;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --sidebar-width: 280px;
+  --topbar-height: 72px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: #F1F5F9;
+  color: #0F172A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ============================================ */
+/* SCROLLBAR                                    */
+/* ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* ============================================ */
+/* ANIMATIONS                                   */
+/* ============================================ */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* ============================================ */
+/* AUTH PAGES BACKGROUND                        */
+/* ============================================ */
+.auth-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 35%, #0D3B66 65%, #042F2E 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(13,148,136,0.12) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(139,92,246,0.08) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-2%, 2%); }
+}
+
+/* ============================================ */
+/* AUTH INPUT & AUTOFILL FIXES                 */
+/* ============================================ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #1E293B inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.auth-input {
+  width: 100% !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  padding-left: 46px !important;
+  padding-right: 16px !important;
+  border-radius: 14px !important;
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.auth-input::placeholder {
+  color: #64748B !important;
+}
+
+.auth-input:focus {
+  border-color: #14B8A6 !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25) !important;
+  background-color: rgba(30, 41, 59, 0.95) !important;
+}
+
+.auth-input-suffix {
+  padding-right: 48px !important;
+}
+
+/* ============================================ */
+/* DASHBOARD CARDS & LAYOUT                     */
+/* ============================================ */
+.dash-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-card:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  border-color: #CBD5E1;
+}
+
+.dash-badge-teal {
+  background: rgba(20, 184, 166, 0.12);
+  color: #0D9488;
+  border: 1px solid rgba(20, 184, 166, 0.25);
+}
+
+.dash-badge-purple {
+  background: rgba(139, 92, 246, 0.12);
+  color: #7C3AED;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.dash-badge-amber {
+  background: rgba(245, 158, 11, 0.12);
+  color: #D97706;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* ============================================ */
+/* RESPONSIVE LAYOUT HELPERS                    */
+/* ============================================ */
+.main-wrapper {
+  margin-left: 0;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .main-wrapper-expanded {
+    margin-left: 280px !important;
+    width: calc(100% - 280px) !important;
+  }
+  .main-wrapper-collapsed {
+    margin-left: 72px !important;
+    width: calc(100% - 72px) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-hero-padding {
+    padding: 24px 20px !important;
+  }
+  .responsive-form-padding {
+    padding: 24px 20px !important;
+  }
+}
+
+/* ============================================ */
+/* TOAST                                        */
+/* ============================================ */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

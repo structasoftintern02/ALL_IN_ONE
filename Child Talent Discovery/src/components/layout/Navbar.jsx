@@ -9,7 +9,7 @@ import {
 const mainPages = [
   { id: 'home', label: 'Home', icon: Home },
   { id: 'programs', label: 'Age Programs', icon: BookOpen },
-  { id: 'skills', label: '12 Skill Domains', icon: Layers },
+  { id: 'skills', label: '10 Skill Domains', icon: Layers },
   { id: 'how-it-works', label: 'How It Works', icon: Milestone },
   { id: 'report-preview', label: 'Sample Report', icon: FileText },
 ];

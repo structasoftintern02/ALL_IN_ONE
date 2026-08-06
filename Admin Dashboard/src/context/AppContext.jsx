@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   pendingTeachers as initTeachers, 
   pendingSchools as initSchools, 
@@ -8,6 +8,15 @@ import {
   activityFeed as initActivities,
   scheduledReports as initScheduledReports
 } from '../data/adminData';
+import {
+  fetchOverview,
+  createChild,
+  deleteChildApi,
+  createParent,
+  createSkillCategory,
+  actionTeacherVerification,
+  actionSchoolVerification
+} from '../services/api';
 
 const AppContext = createContext();
 
@@ -30,6 +39,30 @@ export const AppProvider = ({ children }) => {
   
   const [toasts, setToasts] = useState([]);
   const [activeModal, setActiveModal] = useState(null); // { type, data }
+
+  // Load dynamic data from Backend API on mount
+  useEffect(() => {
+    const loadApiData = async () => {
+      const data = await fetchOverview();
+      if (data) {
+        if (data.children) setChildrenList(data.children);
+        if (data.parents) setParentsList(data.parents);
+        if (data.pendingTeachers) setTeachers(data.pendingTeachers);
+        if (data.pendingSchools) setSchools(data.pendingSchools);
+        if (data.skillCategories) {
+          setCategoriesList(data.skillCategories.map(c => ({
+            id: c.id,
+            name: c.title || c.name,
+            count: c.desc || 'Active Program',
+            icon: c.icon || '✨',
+            bg: 'bg-indigo-100 text-indigo-900'
+          })));
+        }
+        if (data.activities) setActivities(data.activities);
+      }
+    };
+    loadApiData();
+  }, []);
 
   // Toast Handler
   const showToast = (message, type = 'success') => {
@@ -58,7 +91,7 @@ export const AppProvider = ({ children }) => {
   };
 
   // Actions
-  const approveTeacher = (id) => {
+  const approveTeacher = async (id) => {
     const teacher = teachers.find(t => t.id === id);
     setTeachers(prev => prev.filter(t => t.id !== id));
     setApprovedTeachersCount(prev => prev + 1);
@@ -69,15 +102,19 @@ export const AppProvider = ({ children }) => {
       { id: Date.now(), type: 'verification', message: `Approved teacher ${teacher?.name || id}`, time: 'Just now', icon: '🎓' },
       ...prev
     ]);
+
+    await actionTeacherVerification(id, 'approve');
   };
 
-  const rejectTeacher = (id) => {
+  const rejectTeacher = async (id) => {
     const teacher = teachers.find(t => t.id === id);
     setTeachers(prev => prev.filter(t => t.id !== id));
     showToast(`Teacher application ${teacher?.name || id} rejected.`, 'error');
+
+    await actionTeacherVerification(id, 'reject');
   };
 
-  const approveSchool = (id) => {
+  const approveSchool = async (id) => {
     const school = schools.find(s => s.id === id);
     setSchools(prev => prev.filter(s => s.id !== id));
     setAccreditedSchoolsCount(prev => prev + 1);
@@ -88,16 +125,43 @@ export const AppProvider = ({ children }) => {
       { id: Date.now(), type: 'school', message: `Accredited partner school ${school?.name || id}`, time: 'Just now', icon: '🏫' },
       ...prev
     ]);
+
+    await actionSchoolVerification(id, 'approve');
   };
 
-  const rejectSchool = (id) => {
+  const rejectSchool = async (id) => {
     const school = schools.find(s => s.id === id);
     setSchools(prev => prev.filter(s => s.id !== id));
     showToast(`School accreditation for ${school?.name || id} rejected.`, 'error');
+
+    await actionSchoolVerification(id, 'reject');
   };
 
-  const addChild = (childData) => {
-    const newChild = {
+  const addChild = async (childData) => {
+    const payload = {
+      childName: childData.name || 'New Child',
+      parentName: childData.parent || 'Parent',
+      age: `${childData.age || 5} yrs`,
+      ageGroup: childData.age <= 5 ? '3–5' : childData.age <= 7 ? '5–7' : '7–10',
+      school: childData.school || 'Partner School',
+      program: childData.program || 'Sensory & Motor Assessment',
+      status: 'Active'
+    };
+
+    const created = await createChild(payload);
+    const newChildItem = created ? {
+      id: created.id,
+      name: created.childName,
+      age: parseInt(created.age) || 5,
+      ageGroup: created.ageGroup,
+      parent: created.parentName,
+      school: created.school,
+      program: created.program,
+      assessments: 1,
+      status: created.status,
+      joinDate: created.date,
+      avatar: created.avatar
+    } : {
       id: `CH-0${childrenList.length + 1}`,
       name: childData.name || 'New Child',
       age: parseInt(childData.age) || 5,
@@ -110,18 +174,32 @@ export const AppProvider = ({ children }) => {
       joinDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
       avatar: (childData.name || 'NC').split(' ').map(n => n[0]).join('').toUpperCase()
     };
-    setChildrenList(prev => [newChild, ...prev]);
-    showToast(`Enrolled child ${newChild.name} successfully!`, 'success');
+
+    setChildrenList(prev => [newChildItem, ...prev]);
+    showToast(`Enrolled child ${newChildItem.name} successfully!`, 'success');
   };
 
-  const addCategory = (catData) => {
-    const newCat = {
+  const addCategory = async (catData) => {
+    const created = await createSkillCategory({
+      title: catData.name,
+      desc: catData.count || 'Active Skill Category',
+      icon: catData.icon || '✨'
+    });
+
+    const newCat = created ? {
+      id: created.id,
+      name: created.title,
+      count: created.desc || 'Active Program',
+      icon: created.icon || '✨',
+      bg: 'bg-indigo-100 text-indigo-900'
+    } : {
       id: `cat-${Date.now()}`,
       name: catData.name,
       count: `${catData.count || 0} Programs`,
       icon: catData.icon || '✨',
       bg: 'bg-indigo-100 text-indigo-900'
     };
+
     setCategoriesList(prev => [...prev, newCat]);
     showToast(`Added skill category "${newCat.name}"`, 'success');
   };

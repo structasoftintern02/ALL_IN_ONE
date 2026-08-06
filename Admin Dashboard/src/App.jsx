@@ -17,6 +17,12 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { RevenuePage } from './pages/RevenuePage';
 import { ReportsPage } from './pages/ReportsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ChildTalentCmsPage } from './pages/ChildTalentCmsPage';
+import { AgeProgramsCmsPage } from './pages/AgeProgramsCmsPage';
+import { SkillsCmsPage } from './pages/SkillsCmsPage';
+import { HowItWorksCmsPage } from './pages/HowItWorksCmsPage';
+
+import { SampleReportCmsPage } from './pages/SampleReportCmsPage';
 
 function DashboardContent() {
   const [activePage, setActivePage] = useState('dashboard');
@@ -27,6 +33,22 @@ function DashboardContent() {
     switch (activePage) {
       case 'dashboard':
         return <DashboardPage setActivePage={setActivePage} />;
+      case 'child-talent':
+      case 'child-talent-hero':
+      case 'home-page':
+        return <ChildTalentCmsPage />;
+      case 'child-talent-age-programs':
+      case 'age-programs-page':
+        return <AgeProgramsCmsPage />;
+      case 'child-talent-skills':
+      case 'skills-page':
+        return <SkillsCmsPage />;
+      case 'child-talent-how-it-works':
+      case 'how-it-works-page':
+        return <HowItWorksCmsPage />;
+      case 'child-talent-sample-report':
+      case 'sample-report-page':
+        return <SampleReportCmsPage />;
       case 'verify-teachers':
         return <TeacherVerifyPage />;
       case 'verify-schools':

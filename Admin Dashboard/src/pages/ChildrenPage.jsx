@@ -85,10 +85,10 @@ export const ChildrenPage = () => {
                       <div className="table-avatar" style={{ 
                         background: child.ageGroup === '3–5' ? 'linear-gradient(135deg, #EC4899, #F472B6)' : child.ageGroup === '5–7' ? 'linear-gradient(135deg, #F59E0B, #FBBF24)' : 'linear-gradient(135deg, #10B981, #34D399)'
                       }}>
-                        {child.avatar}
+                        {child.avatar || (child.name || child.childName || 'C').slice(0, 2).toUpperCase()}
                       </div>
                       <div>
-                        <div className="table-name-text">{child.name}</div>
+                        <div className="table-name-text">{child.name || child.childName}</div>
                         <div className="table-sub">{child.id}</div>
                       </div>
                     </div>
@@ -98,17 +98,17 @@ export const ChildrenPage = () => {
                       background: child.ageGroup === '3–5' ? 'rgba(236,72,153,0.1)' : child.ageGroup === '5–7' ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)',
                       color: child.ageGroup === '3–5' ? 'var(--pink)' : child.ageGroup === '5–7' ? '#D97706' : 'var(--emerald)'
                     }}>
-                      {child.age} yrs ({child.ageGroup})
+                      {child.age} yrs ({child.ageGroup || '5–7'})
                     </span>
                   </td>
-                  <td style={{ fontSize: 12, fontWeight: 600 }}>{child.parent}</td>
+                  <td style={{ fontSize: 12, fontWeight: 600 }}>{child.parent || child.parentName}</td>
                   <td style={{ fontSize: 12 }}>{child.school}</td>
                   <td style={{ fontSize: 12 }}>{child.program}</td>
                   <td>
-                    <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--primary)' }}>{child.assessments}</span>
+                    <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--primary)' }}>{child.assessments || 1}</span>
                   </td>
-                  <td style={{ fontSize: 12, color: 'var(--slate-500)' }}>{child.joinDate}</td>
-                  <td><span className={`badge ${child.status.toLowerCase()}`}>{child.status}</span></td>
+                  <td style={{ fontSize: 12, color: 'var(--slate-500)' }}>{child.joinDate || child.date || 'Aug 2026'}</td>
+                  <td><span className={`badge ${(child.status || 'Active').toLowerCase()}`}>{child.status || 'Active'}</span></td>
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
                       <button className="btn btn-outline btn-sm" onClick={() => openModal('VIEW_CHILD', child)}>
