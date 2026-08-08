@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Sparkles, Save, RefreshCw, Layers, CheckCircle2, Globe, Plus, Trash2, Eye, EyeOff, ShieldCheck, Pencil, Edit3, X 
+  Sparkles, Save, RefreshCw, Layers, CheckCircle2, Globe, Plus, Trash2, Eye, EyeOff, ShieldCheck, Pencil, Edit3, X, Award 
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { fetchHomeCms, updateHomeCms } from '../services/api';
 
-export const ChildTalentCmsPage = () => {
+export const ChildTalentCmsPage = ({ activePage }) => {
   const { showToast } = useApp();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -42,6 +42,75 @@ export const ChildTalentCmsPage = () => {
       trustedText: true,
       stats: true,
       floatingBadges: true
+    },
+    whyChooseUsCms: {
+      badge: "⭐ Why Choose Us",
+      title: "The Smartest Choice for Your Child's Future",
+      highlightText: "Child's Future",
+      subtitle: "We combine science, technology, and care to deliver the most accurate and actionable talent discovery experience for your child.",
+      buttonText: "Learn More About Us →",
+      cards: [
+        {
+          id: 'wc-1',
+          iconName: 'Award',
+          emoji: '🏆',
+          title: 'Scientifically Backed Assessments',
+          desc: 'Our assessments are designed by child psychologists and education experts using globally recognized frameworks like Howard Gardner\'s Multiple Intelligences theory.',
+          color: 'from-violet-500 to-purple-600',
+          bgColor: 'bg-violet-50 dark:bg-violet-950/30'
+        },
+        {
+          id: 'wc-2',
+          iconName: 'Users',
+          emoji: '👨‍👩‍👧‍👦',
+          title: 'Trusted by 10,000+ Families',
+          desc: 'Thousands of parents across India trust our platform to discover and nurture their children\'s hidden talents, with a 98% satisfaction rate.',
+          color: 'from-blue-500 to-indigo-600',
+          bgColor: 'bg-blue-50 dark:bg-blue-950/30'
+        },
+        {
+          id: 'wc-3',
+          iconName: 'BookOpen',
+          emoji: '📚',
+          title: 'Personalized Learning Plans',
+          desc: 'Every child receives a tailored development roadmap with specific activity recommendations, book lists, and hobby suggestions based on their unique profile.',
+          color: 'from-emerald-500 to-green-600',
+          bgColor: 'bg-emerald-50 dark:bg-emerald-950/30'
+        },
+        {
+          id: 'wc-4',
+          iconName: 'TrendingUp',
+          emoji: '📈',
+          title: 'Track Growth Over Time',
+          desc: 'Monitor your child\'s progress with detailed reports and milestone tracking. See how their skills evolve and celebrate every achievement along the way.',
+          color: 'from-orange-500 to-amber-600',
+          bgColor: 'bg-orange-50 dark:bg-orange-950/30'
+        },
+        {
+          id: 'wc-5',
+          iconName: 'Shield',
+          emoji: '🔒',
+          title: '100% Safe & Private',
+          desc: 'Your child\'s data is encrypted and completely confidential. We never share personal information with third parties. Your privacy is our top priority.',
+          color: 'from-teal-500 to-cyan-600',
+          bgColor: 'bg-teal-50 dark:bg-teal-950/30'
+        },
+        {
+          id: 'wc-6',
+          iconName: 'Clock',
+          emoji: '⏰',
+          title: 'Quick & Easy Process',
+          desc: 'Complete the assessment in just 15-20 minutes from the comfort of your home. Get instant, detailed results with actionable insights — no waiting required.',
+          color: 'from-pink-500 to-rose-600',
+          bgColor: 'bg-pink-50 dark:bg-pink-950/30'
+        }
+      ],
+      visibility: {
+        section: true,
+        header: true,
+        cardsList: true,
+        ctaButton: true
+      }
     }
   });
 
@@ -83,6 +152,15 @@ export const ChildTalentCmsPage = () => {
     };
     loadCmsData();
   }, []);
+
+  useEffect(() => {
+    if (activePage === 'child-talent-why-choose-us') {
+      setTimeout(() => {
+        const el = document.getElementById('why-choose-us-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    }
+  }, [activePage]);
 
   const handleSave = async (e) => {
     e?.preventDefault();

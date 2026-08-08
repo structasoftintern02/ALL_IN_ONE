@@ -3,33 +3,16 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '../common/SectionHeader';
 import { howItWorksSteps as defaultSteps } from '../../data/talentData';
 import { useTheme } from '../../context/ThemeContext';
+import { useData } from '../../context/DataContext';
 import { ArrowRight, Clock, Sparkles } from 'lucide-react';
-
-const API_URL = 'http://localhost:5000/api/cms/child-talent';
 
 export const HowItWorks = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
-  const [cmsData, setCmsData] = useState(null);
+  const dataContext = useData();
+  const homeCms = dataContext?.homeCms;
+  const cmsData = homeCms?.assessmentProcessCms || homeCms?.howItWorksCms;
 
-  useEffect(() => {
-    fetchCmsData();
-  }, []);
-
-  const fetchCmsData = async () => {
-    try {
-      const res = await fetch(API_URL);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.howItWorksCms) {
-          setCmsData(data.howItWorksCms);
-        }
-      }
-    } catch (err) {
-      console.log('Using fallback for How It Works CMS');
-    }
-  };
-
-  const steps = cmsData?.steps || defaultSteps;
+  const steps = (cmsData?.steps && cmsData.steps.length > 0) ? cmsData.steps : defaultSteps;
   const sectionBadge = cmsData?.badge || "🛣️ 5-Step Learning Journey";
   const sectionTitle = cmsData?.title || "How Child Talent Discovery Works";
   const sectionSubtitle = cmsData?.subtitle || "Simple, non-stressful, and parent-guided. Discover your child's innate strengths in 5 simple steps.";

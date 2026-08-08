@@ -3,32 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeader } from '../common/SectionHeader';
 import { sampleReportData as defaultReport } from '../../data/talentData';
 import { useTheme } from '../../context/ThemeContext';
+import { useData } from '../../context/DataContext';
 import { Award, CheckCircle2, AlertCircle, Sparkles, BookOpen, Download, Star } from 'lucide-react';
-
-const API_URL = 'http://localhost:5000/api/cms/child-talent';
 
 export const AssessmentPreview = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
-  const [cmsData, setCmsData] = useState(null);
+  const dataContext = useData();
+  const homeCms = dataContext?.homeCms;
+  const cmsData = homeCms?.sampleReportsCms || homeCms?.sampleReportCms;
   const [activeTab, setActiveTab] = useState('overview'); // overview, domain-breakdown, learning-path
-
-  useEffect(() => {
-    fetchCmsData();
-  }, []);
-
-  const fetchCmsData = async () => {
-    try {
-      const res = await fetch(API_URL);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.sampleReportCms) {
-          setCmsData(data.sampleReportCms);
-        }
-      }
-    } catch (err) {
-      console.log('Using fallback for Sample Report CMS');
-    }
-  };
 
   const report = cmsData ? { ...defaultReport, ...cmsData } : defaultReport;
   const sectionBadge = cmsData?.badge || "📊 Sample Assessment Report Preview";
@@ -82,19 +65,6 @@ export const AssessmentPreview = ({ setActivePage }) => {
                     Age: {report.age} • Assessed: {report.assessmentDate}
                   </p>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="px-4 py-2 rounded-xl bg-purple-950/60 border border-purple-800/60 text-right">
-                  <div className="text-[10px] font-extrabold uppercase text-purple-300">Overall Potential</div>
-                  <div className="text-xl font-extrabold text-amber-400">{report.overallScore} / 100</div>
-                </div>
-                <button
-                  onClick={() => setActivePage('contact')}
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white font-extrabold text-xs flex items-center gap-2 shadow-md"
-                >
-                  <Download className="w-4 h-4" /> {report.downloadButtonText || 'Download Sample PDF'}
-                </button>
               </div>
             </div>
 

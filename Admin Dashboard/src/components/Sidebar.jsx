@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, ShieldCheck, Building2, Database, Settings,
   ChevronLeft, ChevronRight, ChevronDown, Users, Baby, BarChart3, IndianRupee,
-  FileText, Bell, LogOut, GraduationCap, Sparkles, Layers, Award, Home, BookOpen, Clock, Target
+  FileText, Bell, LogOut, GraduationCap, Sparkles, Layers, Award, Home, BookOpen, Clock, Target, Heart, HelpCircle, Phone
 } from 'lucide-react';
 
 const menuSections = [
@@ -50,7 +50,21 @@ const menuSections = [
         label: 'Home Page',
         icon: Home,
         subItems: [
-          { id: 'child-talent-hero', label: 'Hero Section', icon: Sparkles }
+          { id: 'child-talent-hero', label: 'Hero', icon: Sparkles },
+          { id: 'child-talent-why-early', label: 'Why Early Discovery', icon: Target },
+          { id: 'child-talent-why-choose-us', label: 'Why Choose Us', icon: Award },
+          { id: 'child-talent-our-advantages', label: 'Our Advantages', icon: Target },
+          { id: 'child-talent-our-methodology', label: 'Our Methodology', icon: Layers },
+          { id: 'child-talent-programs', label: 'Programs', icon: BookOpen },
+          { id: 'child-talent-skill-categories', label: 'Skill Categories', icon: Layers },
+          { id: 'child-talent-assessment-process', label: 'Assessment Process', icon: Clock },
+          { id: 'child-talent-key-benefits', label: 'Key Benefits', icon: Award },
+          { id: 'child-talent-sample-reports', label: 'Sample Reports', icon: FileText },
+          { id: 'child-talent-success-stories', label: 'Success Stories', icon: Heart },
+          { id: 'child-talent-faq', label: 'FAQ', icon: HelpCircle },
+          { id: 'child-talent-contact-us', label: 'Contact Us', icon: Phone },
+          { id: 'child-talent-cta', label: 'Call To Action', icon: Sparkles },
+          { id: 'child-talent-footer', label: 'Footer', icon: Layers }
         ]
       },
       {
@@ -58,7 +72,7 @@ const menuSections = [
         label: 'Age Programs',
         icon: Layers,
         subItems: [
-          { id: 'child-talent-age-programs', label: 'Programs Section', icon: BookOpen }
+          { id: 'child-talent-age-programs', label: 'Age Programs', icon: BookOpen }
         ]
       },
       {
@@ -66,7 +80,7 @@ const menuSections = [
         label: '10 Skill Domains',
         icon: Award,
         subItems: [
-          { id: 'child-talent-skills', label: 'Skill Categories Section', icon: Layers }
+          { id: 'child-talent-skills', label: 'Skill Categories', icon: Layers }
         ]
       },
       {
@@ -74,7 +88,7 @@ const menuSections = [
         label: 'How It Works',
         icon: Clock,
         subItems: [
-          { id: 'child-talent-how-it-works', label: '5-Step Process Section', icon: Target }
+          { id: 'child-talent-how-it-works', label: '5-Step Process', icon: Target }
         ]
       },
       {
@@ -82,7 +96,7 @@ const menuSections = [
         label: 'Sample Report',
         icon: BarChart3,
         subItems: [
-          { id: 'child-talent-sample-report', label: 'Report Preview Section', icon: FileText }
+          { id: 'child-talent-sample-report', label: 'Report Preview', icon: FileText }
         ]
       }
     ]
@@ -152,7 +166,7 @@ export const Sidebar = ({ activePage, setActivePage, collapsed, setCollapsed, mo
         </div>
 
         {/* Navigation */}
-        <div style={{ flex: 1, paddingTop: 8 }} className="sidebar-scrollable">
+        <div style={{ flex: 1, paddingTop: 8, overflowY: 'auto', paddingBottom: 24 }} className="sidebar-scrollable">
           {menuSections.map((section, sIdx) => {
             const isOpen = openSections[section.title] !== false;
             const isDirectActive = section.items.length === 0 && activePage === section.id;
@@ -227,7 +241,7 @@ export const Sidebar = ({ activePage, setActivePage, collapsed, setCollapsed, mo
 
                             {/* Render Nested Sub-Items */}
                             {hasSubItems && isSubOpen && !collapsed && (
-                              <div style={{ paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 2, marginTop: 4, marginBottom: 4 }}>
+                              <div style={{ paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 3, marginTop: 4, marginBottom: 4 }}>
                                 {item.subItems.map((sub) => {
                                   const SubIcon = sub.icon;
                                   const isSubActive = activePage === sub.id;
@@ -237,14 +251,21 @@ export const Sidebar = ({ activePage, setActivePage, collapsed, setCollapsed, mo
                                       onClick={() => handleNav(sub.id)}
                                       className={`nav-item ${isSubActive ? 'active' : ''}`}
                                       style={{
-                                        padding: '7px 12px',
-                                        fontSize: 12,
-                                        borderRadius: 8
+                                        padding: '8px 12px',
+                                        fontSize: 13,
+                                        fontWeight: isSubActive ? 700 : 500,
+                                        fontFamily: "'Poppins', 'Plus Jakarta Sans', sans-serif",
+                                        letterSpacing: '0.01em',
+                                        borderRadius: 10,
+                                        color: isSubActive ? '#FFFFFF' : '#94A3B8',
+                                        background: isSubActive ? 'linear-gradient(135deg, rgba(79,70,229,0.35), rgba(236,72,153,0.2))' : 'transparent',
+                                        border: isSubActive ? '1px solid rgba(168,85,247,0.35)' : '1px solid transparent',
+                                        boxShadow: isSubActive ? '0 4px 12px rgba(79,70,229,0.15)' : 'none'
                                       }}
                                       whileTap={{ scale: 0.97 }}
                                     >
-                                      <SubIcon size={14} className="nav-icon" />
-                                      <span className="nav-label">{sub.label}</span>
+                                      <SubIcon size={15} className="nav-icon" style={{ color: isSubActive ? '#F472B6' : '#64748B', flexShrink: 0 }} />
+                                      <span className="nav-label" style={{ fontFamily: "'Poppins', 'Plus Jakarta Sans', sans-serif", fontWeight: isSubActive ? 700 : 500 }}>{sub.label}</span>
                                     </motion.button>
                                   );
                                 })}

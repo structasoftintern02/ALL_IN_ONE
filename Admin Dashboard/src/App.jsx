@@ -18,11 +18,23 @@ import { RevenuePage } from './pages/RevenuePage';
 import { ReportsPage } from './pages/ReportsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ChildTalentCmsPage } from './pages/ChildTalentCmsPage';
+import { WhyChooseUsCmsPage } from './pages/WhyChooseUsCmsPage';
+import { WhyEarlyDiscoveryCmsPage } from './pages/WhyEarlyDiscoveryCmsPage';
+import { OurAdvantagesCmsPage } from './pages/OurAdvantagesCmsPage';
+import { OurMethodologyCmsPage } from './pages/OurMethodologyCmsPage';
+import { ProgramsCmsPage } from './pages/ProgramsCmsPage';
+import { SkillCategoriesCmsPage } from './pages/SkillCategoriesCmsPage';
+import { AssessmentProcessCmsPage } from './pages/AssessmentProcessCmsPage';
+import { KeyBenefitsCmsPage } from './pages/KeyBenefitsCmsPage';
+import { SampleReportsCmsPage } from './pages/SampleReportsCmsPage';
+import { SuccessStoriesCmsPage } from './pages/SuccessStoriesCmsPage';
+import { FaqCmsPage } from './pages/FaqCmsPage';
+import { ContactUsCmsPage } from './pages/ContactUsCmsPage';
+import { CallToActionCmsPage } from './pages/CallToActionCmsPage';
+import { FooterCmsPage } from './pages/FooterCmsPage';
 import { AgeProgramsCmsPage } from './pages/AgeProgramsCmsPage';
 import { SkillsCmsPage } from './pages/SkillsCmsPage';
 import { HowItWorksCmsPage } from './pages/HowItWorksCmsPage';
-
-import { SampleReportCmsPage } from './pages/SampleReportCmsPage';
 
 function DashboardContent() {
   const [activePage, setActivePage] = useState('dashboard');
@@ -35,20 +47,48 @@ function DashboardContent() {
         return <DashboardPage setActivePage={setActivePage} />;
       case 'child-talent':
       case 'child-talent-hero':
+      case 'child-talent-stats':
       case 'home-page':
-        return <ChildTalentCmsPage />;
-      case 'child-talent-age-programs':
-      case 'age-programs-page':
-        return <AgeProgramsCmsPage />;
+        return <ChildTalentCmsPage activePage={activePage} />;
+      case 'child-talent-why-early':
+        return <WhyEarlyDiscoveryCmsPage />;
+      case 'child-talent-our-advantages':
+        return <OurAdvantagesCmsPage />;
+      case 'child-talent-why-choose-us':
+        return <WhyChooseUsCmsPage />;
+      case 'child-talent-our-methodology':
+        return <OurMethodologyCmsPage />;
+      case 'child-talent-programs':
+        return <ProgramsCmsPage />;
+      case 'child-talent-skill-categories':
       case 'child-talent-skills':
       case 'skills-page':
-        return <SkillsCmsPage />;
+        return <SkillCategoriesCmsPage />;
+      case 'child-talent-assessment-process':
       case 'child-talent-how-it-works':
       case 'how-it-works-page':
-        return <HowItWorksCmsPage />;
+        return <AssessmentProcessCmsPage />;
+      case 'child-talent-key-benefits':
+        return <KeyBenefitsCmsPage />;
+      case 'child-talent-sample-reports':
       case 'child-talent-sample-report':
       case 'sample-report-page':
-        return <SampleReportCmsPage />;
+        return <SampleReportsCmsPage />;
+      case 'child-talent-success-stories':
+      case 'child-talent-testimonials':
+        return <SuccessStoriesCmsPage />;
+      case 'child-talent-faq':
+      case 'faq-page':
+        return <FaqCmsPage />;
+      case 'child-talent-contact-us':
+      case 'contact-us-page':
+        return <ContactUsCmsPage />;
+      case 'child-talent-cta':
+      case 'cta-page':
+        return <CallToActionCmsPage />;
+      case 'child-talent-footer':
+      case 'footer-page':
+        return <FooterCmsPage />;
       case 'verify-teachers':
         return <TeacherVerifyPage />;
       case 'verify-schools':

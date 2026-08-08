@@ -4,37 +4,25 @@ import { SectionHeader } from '../common/SectionHeader';
 import { StaggerContainer, StaggerItem } from '../common/ScrollReveal';
 import { agePrograms as defaultPrograms } from '../../data/talentData';
 import { useTheme } from '../../context/ThemeContext';
+import { useData } from '../../context/DataContext';
 import { CheckCircle2, ArrowRight, Clock, Target, ChevronDown } from 'lucide-react';
-
-const API_URL = 'http://localhost:5000/api/cms/child-talent';
 
 export const AgePrograms = ({ setActivePage }) => {
   const { activeConfig } = useTheme();
-  const [cmsData, setCmsData] = useState(null);
-  const [activeTab, setActiveTab] = useState('age-3-5');
+  const dataContext = useData();
+  const homeCms = dataContext?.homeCms;
+  const cmsData = homeCms?.programsCms || homeCms?.ageProgramsCms;
+  const [activeTab, setActiveTab] = useState('prog-1');
 
   useEffect(() => {
-    fetchCmsData();
-  }, []);
-
-  const fetchCmsData = async () => {
-    try {
-      const res = await fetch(API_URL);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.ageProgramsCms) {
-          setCmsData(data.ageProgramsCms);
-          if (data.ageProgramsCms.programs && data.ageProgramsCms.programs.length > 0) {
-            setActiveTab(data.ageProgramsCms.programs[0].id);
-          }
-        }
+    if (cmsData?.programs && cmsData.programs.length > 0) {
+      if (!cmsData.programs.some(p => p.id === activeTab)) {
+        setActiveTab(cmsData.programs[0].id);
       }
-    } catch (err) {
-      console.log('Using fallback for Age Programs CMS');
     }
-  };
+  }, [cmsData]);
 
-  const programs = cmsData?.programs || defaultPrograms;
+  const programs = (cmsData?.programs && cmsData.programs.length > 0) ? cmsData.programs : defaultPrograms;
   const sectionBadge = cmsData?.badge || "🌱 Age-wise Development Programs";
   const sectionTitle = cmsData?.title || "Tailored Programs for Every Milestone";
   const sectionSubtitle = cmsData?.subtitle || "Children develop distinct cognitive and physical capabilities at different ages. Our programs match your child's exact developmental stage.";

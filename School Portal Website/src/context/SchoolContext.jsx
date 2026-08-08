@@ -1,188 +1,480 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const SchoolContext = createContext(null);
-
-// Demo Initial Data
-const INITIAL_STUDENTS = [
-  { id: 'st-101', rollNo: 'S-201', name: 'Aarav Sharma', age: 6, grade: 'Grade 1-A', parentName: 'Priya Sharma', parentPhone: '+91 98201 11223', parentEmail: 'priya@demo.com', enrolledPrograms: ['Creative & Cognitive Growth', 'STEM Explorer'], progressScore: 89, attendancePct: 96, status: 'Active' },
-  { id: 'st-102', rollNo: 'S-202', name: 'Ananya Sharma', age: 3, grade: 'Pre-K B', parentName: 'Priya Sharma', parentPhone: '+91 98201 11223', parentEmail: 'priya@demo.com', enrolledPrograms: ['Early Sensory Play'], progressScore: 92, attendancePct: 98, status: 'Active' },
-  { id: 'st-103', rollNo: 'S-203', name: 'Rohan Verma', age: 7, grade: 'Grade 2-B', parentName: 'Vikram Verma', parentPhone: '+91 98765 43210', parentEmail: 'vikram@verma.com', enrolledPrograms: ['Junior Robotics & Coding', 'Math Whiz'], progressScore: 95, attendancePct: 92, status: 'Active' },
-  { id: 'st-104', rollNo: 'S-204', name: 'Diya Patel', age: 5, grade: 'KG-A', parentName: 'Sanjay Patel', parentPhone: '+91 98111 22334', parentEmail: 'sanjay@patel.com', enrolledPrograms: ['Phonics & Vocal Arts'], progressScore: 88, attendancePct: 94, status: 'Active' },
-  { id: 'st-105', rollNo: 'S-205', name: 'Kabir Mehta', age: 8, grade: 'Grade 3-A', parentName: 'Neha Mehta', parentPhone: '+91 97222 33445', parentEmail: 'neha@mehta.com', enrolledPrograms: ['Junior Chess & Logic', 'STEM Explorer'], progressScore: 91, attendancePct: 90, status: 'Active' },
-  { id: 'st-106', rollNo: 'S-206', name: 'Sanya Gupta', age: 6, grade: 'Grade 1-B', parentName: 'Amit Gupta', parentPhone: '+91 96333 44556', parentEmail: 'amit@gupta.com', enrolledPrograms: ['Creative & Cognitive Growth'], progressScore: 84, attendancePct: 88, status: 'Active' }
-];
-
-const INITIAL_TEACHERS = [
-  { id: 'tch-1', name: 'Mrs. Rajeshwari Nair', empId: 'T-101', skills: ['Cognitive Skills', 'Early Childhood Ed'], email: 'rnair@littlestars.edu', phone: '+91 98200 12345', programs: ['Creative & Cognitive Growth'], status: 'Available', rating: 4.9, experience: '8 Years' },
-  { id: 'tch-2', name: 'Mr. Arvind Deshmukh', empId: 'T-102', skills: ['STEM', 'Robotics & AI'], email: 'adeshmukh@littlestars.edu', phone: '+91 98200 23456', programs: ['STEM Explorer Workshop', 'Junior Robotics & Coding'], status: 'In Session', rating: 4.8, experience: '6 Years' },
-  { id: 'tch-3', name: 'Ms. Anita Sundaram', empId: 'T-103', skills: ['Sensory Development', 'Montessori'], email: 'asundaram@littlestars.edu', phone: '+91 98200 34567', programs: ['Early Sensory Play'], status: 'Available', rating: 5.0, experience: '10 Years' },
-  { id: 'tch-4', name: 'Mr. David Fernandez', empId: 'T-104', skills: ['Vocal Arts', 'Phonics & Speech'], email: 'dfernandez@littlestars.edu', phone: '+91 98200 45678', programs: ['Phonics & Vocal Arts'], status: 'On Leave', rating: 4.7, experience: '5 Years' }
-];
-
-const INITIAL_PROGRAMS = [
-  { id: 'prg-1', name: 'Creative & Cognitive Growth', category: 'Cognitive & Motor', ageGroup: '5-7 Years', enrolledCount: 28, maxCapacity: 30, assignedTeacher: 'Mrs. Rajeshwari Nair', schedule: 'Mon & Wed (10:00 AM)', status: 'Active', fee: '₹4,500' },
-  { id: 'prg-2', name: 'STEM Explorer Workshop', category: 'Science & Logic', ageGroup: '6-8 Years', enrolledCount: 22, maxCapacity: 25, assignedTeacher: 'Mr. Arvind Deshmukh', schedule: 'Tue & Thu (11:00 AM)', status: 'Active', fee: '₹5,200' },
-  { id: 'prg-3', name: 'Early Sensory Play', category: 'Early Childhood', ageGroup: '2-4 Years', enrolledCount: 18, maxCapacity: 20, assignedTeacher: 'Ms. Anita Sundaram', schedule: 'Mon & Fri (02:00 PM)', status: 'Active', fee: '₹3,800' },
-  { id: 'prg-4', name: 'Junior Chess & Logic Lab', category: 'Strategy & Math', ageGroup: '7-10 Years', enrolledCount: 15, maxCapacity: 20, assignedTeacher: 'Mr. Arvind Deshmukh', schedule: 'Saturday (10:00 AM)', status: 'Upcoming', fee: '₹4,000' }
-];
-
-const INITIAL_SESSIONS = [
-  { id: 'ses-1', programName: 'Creative & Cognitive Growth', teacherName: 'Mrs. Rajeshwari Nair', date: '2026-08-08', time: '10:00 AM', room: 'Smart Lab 1', enrolled: 28, attended: 26, status: 'Scheduled' },
-  { id: 'ses-2', programName: 'STEM Explorer Workshop', teacherName: 'Mr. Arvind Deshmukh', date: '2026-08-08', time: '11:30 AM', room: 'Robotics Center', enrolled: 22, attended: 21, status: 'Scheduled' },
-  { id: 'ses-3', programName: 'Early Sensory Play', teacherName: 'Ms. Anita Sundaram', date: '2026-08-09', time: '02:00 PM', room: 'Activity Hall A', enrolled: 18, attended: 18, status: 'Scheduled' },
-  { id: 'ses-4', programName: 'Junior Chess & Logic Lab', teacherName: 'Mr. Arvind Deshmukh', date: '2026-08-10', time: '10:00 AM', room: 'Logic Studio', enrolled: 15, attended: 0, status: 'Upcoming' }
-];
-
-const INITIAL_INFRASTRUCTURE = [
-  { id: 'inf-1', name: 'STEM & Robotics Innovation Lab', category: 'Laboratories', capacity: '30 Students', features: ['3D Printers', 'LEGO Education Robotics', 'Interactive Smartboard'], status: 'Operational', image: '🤖' },
-  { id: 'inf-2', name: 'Montessori Sensory & Play Studio', category: 'Activity Rooms', capacity: '20 Toddlers', features: ['Padded Flooring', 'Tactile Skill Panels', 'Calm Zone'], status: 'Operational', image: '🎨' },
-  { id: 'inf-3', name: 'Multipurpose Skill Auditorium', category: 'Auditoriums', capacity: '250 Seats', features: ['Pro Surround Sound', 'Acoustic Panels', 'Stage Lighting'], status: 'Operational', image: '🎭' },
-  { id: 'inf-4', name: 'Indoor Sports & Motor Skill Arena', category: 'Sports & Playgrounds', capacity: '50 Students', features: ['Climbing Wall', 'Balance Beams', 'Mini Turf'], status: 'Under Maintenance', image: '🏟️' }
-];
-
-const INITIAL_NOTIFICATIONS = [
-  { id: 'not-1', title: 'Parent Portal Synced', message: '12 new parent accounts created for Grade 1 students.', time: '10 mins ago', type: 'system', read: false },
-  { id: 'not-2', title: 'Monthly Assessment Report Ready', message: 'Cognitive & Motor Skill scores updated for July 2026.', time: '1 hour ago', type: 'report', read: false },
-  { id: 'not-3', title: 'Session Attendance Completed', message: 'Mrs. Nair marked attendance for Creative Growth session.', time: '3 hours ago', type: 'attendance', read: true }
-];
+const SchoolContext = createContext();
 
 export const SchoolProvider = ({ children }) => {
+  // Navigation State
   const [activePage, setActivePage] = useState('dashboard');
-  const [students, setStudents] = useState(INITIAL_STUDENTS);
-  const [teachers, setTeachers] = useState(INITIAL_TEACHERS);
-  const [programs, setPrograms] = useState(INITIAL_PROGRAMS);
-  const [sessions, setSessions] = useState(INITIAL_SESSIONS);
-  const [infrastructure, setInfrastructure] = useState(INITIAL_INFRASTRUCTURE);
-  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
-  const [toasts, setToasts] = useState([]);
+  
+  // Subscription Plan ('Basic' | 'Premium')
+  const [subscription, setSubscription] = useState('Premium');
 
-  // Toast Handler
-  const showToast = useCallback((message, type = 'success') => {
+  // Toasts State
+  const [toasts, setToasts] = useState([]);
+  const addToast = (message, type = 'success') => {
     const id = Date.now();
     setToasts(prev => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
-    }, 3500);
-  }, []);
-
-  // Student Actions
-  const addStudent = (studentData) => {
-    const newStudent = {
-      id: `st-${Date.now()}`,
-      rollNo: `S-${200 + students.length + 1}`,
-      progressScore: 85,
-      attendancePct: 95,
-      status: 'Active',
-      enrolledPrograms: studentData.enrolledPrograms || ['General Skills'],
-      ...studentData
-    };
-    setStudents(prev => [newStudent, ...prev]);
-    showToast(`Student ${studentData.name} enrolled successfully!`);
+    }, 4000);
   };
 
-  const updateStudent = (id, updatedData) => {
-    setStudents(prev => prev.map(s => s.id === id ? { ...s, ...updatedData } : s));
-    showToast(`Student updated successfully!`);
-  };
+  // 1. School Profile State
+  const [schoolProfile, setSchoolProfile] = useState({
+    name: 'Greenwood International School',
+    tagline: 'Empowering Young Minds for Tomorrow',
+    code: 'SCH-IND-8842',
+    type: 'Private K-12 Partner',
+    board: 'CBSE / Cambridge Affiliate',
+    established: 2012,
+    address: 'Sector 42, Tech Park Boulevard, Bengaluru – 560103',
+    phone: '+91 98765 43210',
+    email: 'partnerships@greenwoodintl.edu.in',
+    website: 'https://greenwoodintl.edu.in',
+    principal: {
+      name: 'Dr. Radhika Sen',
+      qualification: 'Ph.D. in Educational Leadership',
+      phone: '+91 98765 11223',
+      email: 'principal@greenwoodintl.edu.in'
+    },
+    infrastructure: {
+      totalCampusArea: '5.2 Acres',
+      totalClassrooms: 32,
+      smartRooms: 18,
+      auditoriums: 2,
+      laboratories: 4,
+      sportsGround: 'Yes (Football, Tennis, Basketball)'
+    },
+    bankDetails: {
+      bankName: 'HDFC Bank Ltd',
+      accountName: 'Greenwood Educational Trust',
+      accountNumber: '50200049281742',
+      ifscCode: 'HDFC0001244',
+      branch: 'Indiranagar, Bengaluru'
+    },
+    gstDetails: {
+      gstin: '29AAACG1234F1Z8',
+      panNumber: 'AAACG1234F',
+      taxStatus: 'Active Exempt (Educational Entity)'
+    },
+    verificationStatus: 'Approved', // Approved, Pending, Under Review, Rejected
+    approvalTimeline: [
+      { step: 'Document Submission', date: '10 Jan 2026', status: 'Completed' },
+      { step: 'Infrastructure Physical Verification', date: '14 Jan 2026', status: 'Completed' },
+      { step: 'MoU & Banking Validation', date: '18 Jan 2026', status: 'Completed' },
+      { step: 'Final CSF Partnership Approval', date: '22 Jan 2026', status: 'Approved' }
+    ]
+  });
 
-  const deleteStudent = (id) => {
-    setStudents(prev => prev.filter(s => s.id !== id));
-    showToast(`Student record deleted.`, 'info');
-  };
-
-  // Teacher Actions
-  const addTeacher = (teacherData) => {
-    const newTeacher = {
-      id: `tch-${Date.now()}`,
-      empId: `T-${100 + teachers.length + 1}`,
+  // 2. Classrooms State
+  const [classrooms, setClassrooms] = useState([
+    {
+      id: 'CR-101',
+      name: 'Innovation Hub Alpha',
+      roomNumber: 'A-201',
+      capacity: 35,
+      maxStudents: 30,
+      ageGroup: '5–8 Years',
+      rentalPrice: 8500, // per week
+      isSmart: true,
+      hasAC: true,
+      hasProjector: true,
+      hasWhiteboard: true,
+      hasWifi: true,
+      hasCCTV: true,
+      type: 'Indoor',
+      status: 'Reserved', // Available, Reserved, Occupied, Under Maintenance
+      image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&auto=format&fit=crop&q=80',
+      description: 'Air-conditioned smart classroom equipped with interactive touch board, ergonomic seating, and high-speed fiber internet.'
+    },
+    {
+      id: 'CR-102',
+      name: 'Robotics & STEM Lab',
+      roomNumber: 'B-104',
+      capacity: 40,
+      maxStudents: 35,
+      ageGroup: '7–10 Years',
+      rentalPrice: 10000,
+      isSmart: true,
+      hasAC: true,
+      hasProjector: true,
+      hasWhiteboard: true,
+      hasWifi: true,
+      hasCCTV: true,
+      type: 'Indoor',
+      status: 'Occupied',
+      image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
+      description: 'Specialized lab with modular desks, electronic kit storage, and safety mats ideal for hands-on robotics workshops.'
+    },
+    {
+      id: 'CR-103',
+      name: 'Creative Studio Beta',
+      roomNumber: 'C-302',
+      capacity: 30,
+      maxStudents: 25,
+      ageGroup: '3–6 Years',
+      rentalPrice: 7000,
+      isSmart: false,
+      hasAC: true,
+      hasProjector: false,
+      hasWhiteboard: true,
+      hasWifi: true,
+      hasCCTV: true,
+      type: 'Indoor',
       status: 'Available',
-      rating: 5.0,
-      programs: teacherData.programs || [],
-      skills: teacherData.skills || ['General Education'],
-      ...teacherData
-    };
-    setTeachers(prev => [newTeacher, ...prev]);
-    showToast(`Teacher ${teacherData.name} added!`);
+      image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80',
+      description: 'Brightly lit creative studio designed for early sensory play, drawing, crafts, and storytelling sessions.'
+    },
+    {
+      id: 'CR-104',
+      name: 'Leadership & Debate Hall',
+      roomNumber: 'A-108',
+      capacity: 50,
+      maxStudents: 45,
+      ageGroup: '8–12 Years',
+      rentalPrice: 12000,
+      isSmart: true,
+      hasAC: true,
+      hasProjector: true,
+      hasWhiteboard: true,
+      hasWifi: true,
+      hasCCTV: true,
+      type: 'Indoor',
+      status: 'Available',
+      image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
+      description: 'Tiered acoustic room perfect for public speaking, drama, and youth leadership foundation activities.'
+    }
+  ]);
+
+  // 3. CSF Published Programs State (Centrally managed by CSF)
+  const [csfPrograms, setCsfPrograms] = useState([
+    {
+      id: 'CSF-PRG-01',
+      title: 'Junior Robotics & Autonomous Systems',
+      banner: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80',
+      description: 'A 10-session hands-on engineering journey introducing kids to motors, sensors, and basic block coding.',
+      ageGroup: '6–9 Years',
+      durationWeeks: 10,
+      maxSessions: 10,
+      schedule: 'Saturdays, 10:00 AM – 12:00 PM',
+      requiredCapacity: 25,
+      startDate: '2026-08-15',
+      endDate: '2026-10-24',
+      totalSeats: 30,
+      enrolledCount: 22,
+      fee: 6500, // per student
+      schoolCommissionPercent: 15, // 15% to school
+      weeklyRentalPrice: 8500, // weekly classroom rental paid to school
+      status: 'Enrollment Open', // Enrollment Open, In Progress, Scheduled, Completed
+      learningOutcomes: [
+        'Understand basic circuits and electrical safety',
+        'Program line-following micro-bots using visual blocks',
+        'Develop critical problem-solving and debugging skills'
+      ]
+    },
+    {
+      id: 'CSF-PRG-02',
+      title: 'Cognitive Mind Mapping & Memory Master',
+      banner: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80',
+      description: 'Scientifically backed neuro-cognitive play activities to boost focus, spatial orientation, and recall.',
+      ageGroup: '4–7 Years',
+      durationWeeks: 8,
+      maxSessions: 8,
+      schedule: 'Sundays, 11:00 AM – 01:00 PM',
+      requiredCapacity: 20,
+      startDate: '2026-09-01',
+      endDate: '2026-10-20',
+      totalSeats: 25,
+      enrolledCount: 18,
+      fee: 4800,
+      schoolCommissionPercent: 15,
+      weeklyRentalPrice: 7000,
+      status: 'Enrollment Open',
+      learningOutcomes: [
+        'Improve visual pattern recognition by 40%',
+        'Learn mnemonic memory association techniques',
+        'Enhance auditory focus during classroom tasks'
+      ]
+    },
+    {
+      id: 'CSF-PRG-03',
+      title: 'Young Authors & Storytelling Academy',
+      banner: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&auto=format&fit=crop&q=80',
+      description: 'Expressive vocabulary building, creative writing, and public elocution mentored by certified authors.',
+      ageGroup: '7–11 Years',
+      durationWeeks: 10,
+      maxSessions: 10,
+      schedule: 'Fridays, 04:00 PM – 06:00 PM',
+      requiredCapacity: 25,
+      startDate: '2026-08-20',
+      endDate: '2026-10-29',
+      totalSeats: 25,
+      enrolledCount: 25,
+      fee: 5500,
+      schoolCommissionPercent: 15,
+      weeklyRentalPrice: 7500,
+      status: 'Fully Booked',
+      learningOutcomes: [
+        'Publish a personal 12-page illustrated storybook',
+        'Master vocal modulation and stage presence',
+        'Expand core vocabulary by 350+ new words'
+      ]
+    }
+  ]);
+
+  // 4. Student Enrollments State
+  const [enrollments, setEnrollments] = useState([
+    {
+      id: 'ENR-901',
+      studentName: 'Aarav Sharma',
+      age: 7,
+      gender: 'Male',
+      grade: 'Grade 2-B',
+      programId: 'CSF-PRG-01',
+      programTitle: 'Junior Robotics & Autonomous Systems',
+      parentName: 'Sanjay Sharma',
+      parentPhone: '+91 98112 33445',
+      parentEmail: 'sanjay.sharma@gmail.com',
+      enrollmentDate: '2026-08-01',
+      status: 'Confirmed', // Draft, Submitted, Pending Parent, Payment Pending, Confirmed, Waitlisted, Rejected
+      feeAmount: 6500,
+      paymentStatus: 'Paid'
+    },
+    {
+      id: 'ENR-902',
+      studentName: 'Ananya Verma',
+      age: 6,
+      gender: 'Female',
+      grade: 'Grade 1-A',
+      programId: 'CSF-PRG-02',
+      programTitle: 'Cognitive Mind Mapping & Memory Master',
+      parentName: 'Meera Verma',
+      parentPhone: '+91 98223 44556',
+      parentEmail: 'meera.verma@outlook.com',
+      enrollmentDate: '2026-08-03',
+      status: 'Payment Pending',
+      feeAmount: 4800,
+      paymentStatus: 'Pending'
+    },
+    {
+      id: 'ENR-903',
+      studentName: 'Rohan Deshmukh',
+      age: 8,
+      gender: 'Male',
+      grade: 'Grade 3-C',
+      programId: 'CSF-PRG-01',
+      programTitle: 'Junior Robotics & Autonomous Systems',
+      parentName: 'Vikram Deshmukh',
+      parentPhone: '+91 98334 55667',
+      parentEmail: 'vikram.d@techcorp.com',
+      enrollmentDate: '2026-08-04',
+      status: 'Pending Parent',
+      feeAmount: 6500,
+      paymentStatus: 'Unpaid'
+    }
+  ]);
+
+  // 5. Assigned CSF Teachers (Read-only)
+  const [assignedTeachers, setAssignedTeachers] = useState([
+    {
+      id: 'TCH-108',
+      name: 'Prof. Ankit Mehta',
+      photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+      certification: 'CSF Master Robotics Instructor (Level 3)',
+      experience: '8 Years',
+      phone: '+91 97711 22334',
+      email: 'ankit.mehta@childskillfoundation.org',
+      assignedProgram: 'Junior Robotics & Autonomous Systems',
+      classroom: 'Robotics & STEM Lab (B-104)',
+      arrivalStatus: 'On Site (Checked In at 09:45 AM)',
+      schedule: 'Saturdays 10:00 AM – 12:00 PM'
+    },
+    {
+      id: 'TCH-112',
+      name: 'Dr. Sunita Rao',
+      photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80',
+      certification: 'Cognitive Neuro-Psychologist & CSF Faculty',
+      experience: '12 Years',
+      phone: '+91 97722 33445',
+      email: 'sunita.rao@childskillfoundation.org',
+      assignedProgram: 'Cognitive Mind Mapping & Memory Master',
+      classroom: 'Innovation Hub Alpha (A-201)',
+      arrivalStatus: 'Scheduled (Expected 10:45 AM)',
+      schedule: 'Sundays 11:00 AM – 01:00 PM'
+    }
+  ]);
+
+  // 6. Attendance Records (Read-only)
+  const [attendanceRecords, setAttendanceRecords] = useState([
+    {
+      sessionDate: '2026-08-01',
+      programTitle: 'Junior Robotics & Autonomous Systems',
+      sessionNumber: 1,
+      totalStudents: 22,
+      presentStudents: 21,
+      absentStudents: 1,
+      teacherName: 'Prof. Ankit Mehta',
+      sessionStatus: 'Completed',
+      attendancePercentage: 95.4
+    },
+    {
+      sessionDate: '2026-08-02',
+      programTitle: 'Cognitive Mind Mapping & Memory Master',
+      sessionNumber: 1,
+      totalStudents: 18,
+      presentStudents: 18,
+      absentStudents: 0,
+      teacherName: 'Dr. Sunita Rao',
+      sessionStatus: 'Completed',
+      attendancePercentage: 100.0
+    }
+  ]);
+
+  // 7. Assessments Summary (Read-only)
+  const [assessments, setAssessments] = useState([
+    {
+      programTitle: 'Junior Robotics & Autonomous Systems',
+      evaluatedStudents: 22,
+      averageScore: '91%',
+      topPerformer: 'Aarav Sharma (98%)',
+      lastEvaluationDate: '2026-08-01',
+      status: 'Session 1 Evaluated by CSF Teacher'
+    },
+    {
+      programTitle: 'Cognitive Mind Mapping & Memory Master',
+      evaluatedStudents: 18,
+      averageScore: '88%',
+      topPerformer: 'Ananya Verma (95%)',
+      lastEvaluationDate: '2026-08-02',
+      status: 'Session 1 Evaluated by CSF Teacher'
+    }
+  ]);
+
+  // 8. Revenue & Financial Data
+  const [revenueStats, setRevenueStats] = useState({
+    totalEarnings: 142500,
+    commissionEarnings: 38250, // 15% of student fees
+    rentalEarnings: 104250, // Classroom weekly rentals
+    pendingPayments: 18500,
+    upcomingPayoutDate: '15 Aug 2026',
+    invoices: [
+      { id: 'INV-2026-081', date: '01 Aug 2026', category: 'Classroom Rental', description: 'Weekly Rental for Innovation Hub (A-201)', amount: 8500, status: 'Paid' },
+      { id: 'INV-2026-082', date: '01 Aug 2026', category: 'School Commission', description: '15% Commission on 22 Robotics Enrollments', amount: 21450, status: 'Paid' },
+      { id: 'INV-2026-083', date: '03 Aug 2026', category: 'Classroom Rental', description: 'Weekly Rental for STEM Lab (B-104)', amount: 10000, status: 'Processing' }
+    ]
+  });
+
+  // 9. School Events State (Premium Module)
+  const [events, setEvents] = useState([
+    {
+      id: 'EVT-101',
+      title: 'Annual Science & Tech Fair 2026',
+      date: '2026-09-15',
+      time: '09:00 AM – 04:00 PM',
+      venue: 'Greenwood Main Auditorium & Lawn',
+      category: 'Science Fair',
+      maxSeats: 250,
+      registeredCount: 184,
+      entryFee: 250, // Paid event ticketing
+      status: 'Published',
+      description: 'Inter-school project display, robotics demo by CSF instructors, and live experiments for parents & students.'
+    },
+    {
+      id: 'EVT-102',
+      title: 'Parenting in Digital Age Workshop',
+      date: '2026-08-28',
+      time: '11:00 AM – 01:00 PM',
+      venue: 'Leadership & Debate Hall (A-108)',
+      category: 'Parent Workshop',
+      maxSeats: 80,
+      registeredCount: 65,
+      entryFee: 0, // Free event
+      status: 'Published',
+      description: 'Expert panel discussion on child brain development, screen time balance, and early talent discovery.'
+    }
+  ]);
+
+  // 10. Announcements & Notifications
+  const [announcements, setAnnouncements] = useState([
+    {
+      id: 'ANC-01',
+      sender: 'Child Skill Foundation HQ',
+      title: 'New Autumn 2026 Robotics & Coding Program Published!',
+      date: '05 Aug 2026',
+      priority: 'High',
+      unread: true,
+      category: 'New Program',
+      message: 'Foundation has published 2 new STEM programs for Q3. Partner schools can apply classrooms to reserve weekly slots.'
+    },
+    {
+      id: 'ANC-02',
+      sender: 'School Admin Desk',
+      title: 'Scheduled Facility Maintenance in Block C',
+      date: '04 Aug 2026',
+      priority: 'Normal',
+      unread: false,
+      category: 'Internal Notice',
+      message: 'Air-conditioning servicing in Creative Studio Beta (C-302) is scheduled for Friday evening.'
+    }
+  ]);
+
+  // 11. Documents Repository
+  const [documents, setDocuments] = useState([
+    { id: 'DOC-01', name: 'School Registration Certificate', type: 'KYC', size: '2.4 MB', uploadDate: '10 Jan 2026', status: 'Verified' },
+    { id: 'DOC-02', name: 'CSF Partnership MoU Agreement 2026', type: 'Contract', size: '4.1 MB', uploadDate: '18 Jan 2026', status: 'Active' },
+    { id: 'DOC-03', name: 'CSF Safety & Infrastructure Manual v4', type: 'Guidelines', size: '5.8 MB', uploadDate: '22 Jan 2026', status: 'Official Guideline' }
+  ]);
+
+  // Handlers
+  const addClassroom = (newRoom) => {
+    setClassrooms(prev => [newRoom, ...prev]);
+    addToast(`Classroom "${newRoom.name}" added successfully!`);
   };
 
-  // Program Actions
-  const addProgram = (programData) => {
-    const newProg = {
-      id: `prg-${Date.now()}`,
-      enrolledCount: 0,
-      status: 'Active',
-      ...programData
-    };
-    setPrograms(prev => [newProg, ...prev]);
-    showToast(`Program ${programData.name} created!`);
+  const addEvent = (newEvent) => {
+    setEvents(prev => [newEvent, ...prev]);
+    addToast(`Event "${newEvent.title}" published successfully!`);
   };
 
-  // Session Actions
-  const addSession = (sessionData) => {
-    const newSes = {
-      id: `ses-${Date.now()}`,
-      attended: 0,
-      status: 'Scheduled',
-      ...sessionData
-    };
-    setSessions(prev => [newSes, ...prev]);
-    showToast(`Session scheduled for ${sessionData.date}!`);
+  const acceptProgram = (programId, classroomId) => {
+    setClassrooms(prev => prev.map(c => c.id === classroomId ? { ...c, status: 'Reserved' } : c));
+    setCsfPrograms(prev => prev.map(p => p.id === programId ? { ...p, status: 'Classroom Reserved' } : p));
+    addToast('Program accepted & classroom reserved for weekly schedule!', 'success');
   };
 
-  // Attendance Toggle
-  const updateSessionAttendance = (sessionId, attendedCount) => {
-    setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, attended: attendedCount, status: 'Completed' } : s));
-    showToast(`Attendance updated for session.`);
-  };
-
-  // Broadcast Announcement
-  const broadcastNotification = (title, message, target = 'Parents') => {
-    const newNotif = {
-      id: `not-${Date.now()}`,
-      title: `[${target}] ${title}`,
-      message,
-      time: 'Just now',
-      type: 'broadcast',
-      read: false
-    };
-    setNotifications(prev => [newNotif, ...prev]);
-    showToast(`Announcement broadcasted to ${target}!`);
-  };
-
-  const markAllNotificationsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-    showToast(`All notifications marked as read.`, 'info');
+  const enrollStudent = (newEnrollment) => {
+    setEnrollments(prev => [newEnrollment, ...prev]);
+    addToast(`Student ${newEnrollment.studentName} enrolled successfully!`);
   };
 
   return (
     <SchoolContext.Provider value={{
       activePage,
       setActivePage,
-      students,
-      teachers,
-      programs,
-      sessions,
-      infrastructure,
-      notifications,
+      subscription,
+      setSubscription,
       toasts,
-      showToast,
-      addStudent,
-      updateStudent,
-      deleteStudent,
-      addTeacher,
-      addProgram,
-      addSession,
-      updateSessionAttendance,
-      broadcastNotification,
-      markAllNotificationsRead
+      addToast,
+      schoolProfile,
+      setSchoolProfile,
+      classrooms,
+      addClassroom,
+      csfPrograms,
+      acceptProgram,
+      enrollments,
+      enrollStudent,
+      assignedTeachers,
+      attendanceRecords,
+      assessments,
+      revenueStats,
+      events,
+      addEvent,
+      announcements,
+      documents
     }}>
       {children}
     </SchoolContext.Provider>
   );
 };
 
-export const useSchool = () => {
-  const context = useContext(SchoolContext);
-  if (!context) throw new Error('useSchool must be used within SchoolProvider');
-  return context;
-};
+export const useSchool = () => useContext(SchoolContext);

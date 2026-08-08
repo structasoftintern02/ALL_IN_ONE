@@ -1,6 +1,8 @@
 import React from 'react';
 import { Hero } from '../components/sections/Hero';
 import { WhyEarlyDiscovery } from '../components/sections/WhyEarlyDiscovery';
+import { WhyChooseUs } from '../components/sections/WhyChooseUs';
+import { OurAdvantages } from '../components/sections/OurAdvantages';
 import { AboutSection } from '../components/sections/AboutSection';
 import { AgePrograms } from '../components/sections/AgePrograms';
 import { SkillCategories } from '../components/sections/SkillCategories';
@@ -16,6 +18,8 @@ export const HomePage = ({ setActivePage }) => {
     <div>
       <Hero setActivePage={setActivePage} />
       <WhyEarlyDiscovery setActivePage={setActivePage} />
+      <WhyChooseUs setActivePage={setActivePage} />
+      <OurAdvantages setActivePage={setActivePage} />
       <AboutSection setActivePage={setActivePage} />
       <AgePrograms setActivePage={setActivePage} />
       <SkillCategories setActivePage={setActivePage} />
